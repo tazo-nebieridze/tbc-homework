@@ -2,6 +2,6 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
 
-    print(5)
+    print(6)
 
 }
