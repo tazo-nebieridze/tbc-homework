@@ -33,7 +33,7 @@ fun main() {
 
         }
 
-        var result: String;
+        var result: String
 
         if (yValue == 0) {
             result = "ნულზე გაყოფა აკრძალულია"
@@ -44,7 +44,7 @@ fun main() {
 
         println(result)
 
-        var answer: String;
+        var answer: String
 
         while (true) {
             println("გსურთ პროგრამის ხელახლა დაწყება <Y/N>?")
