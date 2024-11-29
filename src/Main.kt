@@ -1,65 +1,75 @@
 
-fun getNumbers(input:String):String {
+class Fizmati {
 
-    return input.filter { c: Char -> c.isDigit() }
+    fun gcd(a: Int, b: Int): Int {
+         if (b == 0)
+             return a
+         else
+            return  gcd(b, a % b)
+    }
 
-}
+    fun lcm(a: Int, b: Int): Int {
+        return (a * b) / gcd(a, b)
+    }
 
+    fun containsDollar(str: String): Boolean {
+        return str.contains("$")
+    }
 
-fun main() {
-    while (true) {
-        println("შეიყვანეთ X ცვლადის მნიშვნელობა:")
-        val x = readLine() ?: ""
+    fun sumOfOddNumbers(n: Int = 100, sum: Int = 0): Int {
+         if (n == 0)
+             return sum
+         else if (n % 2 == 0) {
+             return sumOfOddNumbers(n - 1, sum + n)
+         }
+         else
+             return sumOfOddNumbers(n - 1, sum)
+    }
 
-        println("შეიყვანეთ ცვლადის მნიშვნელობა Y:")
-        val y = readLine() ?: ""
-
-        val xNumbers = getNumbers(x)
-        val yNumbers = getNumbers(y)
-
-        var xValue = 0
-
-        if (!xNumbers.isEmpty()){
-
-            xValue = xNumbers.toInt()
-
+    fun reverseNumber(num: Int): Int {
+        var number = num
+        var reversed = 0
+        while (number != 0) {
+            val digit = number % 10
+            reversed = reversed * 10 + digit
+            number /= 10
         }
+        return reversed
+    }
 
-        var yValue = 0
-
-        if (!yNumbers.isEmpty()){
-
-            yValue = yNumbers.toInt()
-
+    fun isPalindrome(str: String): Boolean {
+        if(str.length == 0){
+            return true;
         }
+        var index = 0;
 
-        var result: String
-
-        if (yValue == 0) {
-            result = "ნულზე გაყოფა აკრძალულია"
-        }  else {
-            val z = xValue / yValue
-            result = "X და Y განაყოფი არის: $z"
-        }
-
-        println(result)
-
-        var answer: String
-
-        while (true) {
-            println("გსურთ პროგრამის ხელახლა დაწყება <Y/N>?")
-            answer = readLine()?.trim() ?: ""
-            if (answer == "y" || answer == "n" || answer == "Y" || answer == "N") {
+        while(index <= str.length/2){
+            if(str[index] != str[str.length-1-index]){
+                return(false)
                 break
-            } else {
-                println("გთხოვთ შეიყვანოთ მხოლოდ \"Y\" ან \"N\"")
             }
+            index++;
         }
 
 
-        if (answer == "n" || answer == "N") {
-            break
-        }
+        return true;
     }
 }
 
+fun main() {
+    val Fizmati = Fizmati()
+
+    println("36-ის და 60-ის უსგ არის: ${Fizmati.gcd(36, 60)}")
+
+    println("36-ის და 60-ის უსჯ არის: ${Fizmati.lcm(36, 60)}")
+
+    println("შეიცავს 'Hello$' '$'? ${Fizmati.containsDollar("Hello$")}")
+
+    println("100-მდე ყველა ლუწი რიცხვის ჯამი : ${Fizmati.sumOfOddNumbers()}")
+
+    println(" 10220-ს შემოტრიალებული რიცხვი არის: ${Fizmati.reverseNumber(10220)}")
+
+    println("არის 'madam' პალინდრომი? ${Fizmati.isPalindrome("madam")}")
+
+    println("არის 'tuso' პალინდრომი? ${Fizmati.isPalindrome("tuso")}")
+}
