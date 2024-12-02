@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:hint="@string/placeholder"
+        android:textColorHint="@color/black"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/input"
+        />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/languageToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+
+        android:layout_marginTop="16dp"
+        android:text="გადაცვალე ინგლისურზე" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action"
+        android:textColor="@color/background"
+        android:textStyle="bold"
+    android:padding="12dp"
+        android:backgroundTint="@color/button"
+    android:layout_margin="8dp"
+        android:elevation="8dp"
+    android:id="@+id/Main_button"
+    android:gravity="center" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginHorizontal="10dp"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:textColor="#000000" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
