@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">mySecondApp</string>
-    <string name="placeholder">შეიყვანეთ რიცხვი 1...1000</string>
     <string name="action">action</string>
+    <string name="info">Profile Info</string>
+
 </resources>
