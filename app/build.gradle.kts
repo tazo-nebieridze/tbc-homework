@@ -5,8 +5,10 @@ plugins {
 
 android {
     namespace = "com.example.homeworkstbc"
-    compileSdk = 34
-
+    compileSdk = 35
+    buildFeatures {
+        viewBinding = true
+    }
     defaultConfig {
         applicationId = "com.example.homeworkstbc"
         minSdk = 24
