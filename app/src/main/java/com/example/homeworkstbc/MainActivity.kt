@@ -27,78 +27,95 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val users = mutableMapOf<String,String>();
 
-        val userNameInput = binding.usernameInput
-        val emailInput = binding.emailInput
-        val currentUsers = binding.currentUsers
-        val addUsersButton = binding.save
+        val anagramInput = binding.anagramInput
+        val saveButton = binding.save
+        val outputButton = binding.output
+        val anagramCount = binding.anagramsCount
+        val clearButton = binding.clear
 
-        currentUsers.text = "CURRENT USERS ${users.size}"
+        val anagramList = mutableListOf<String>();
 
-        fun isUniqueEmail (email : String) : Boolean {
-            return users.containsKey(email)
-        }
 
-        addUsersButton.setOnClickListener {
-            if(userNameInput.text?.length == 0 && emailInput.text?.length == 0){
-                Toast.makeText(this,"გთხოვთ შეავსოთ ყველა ველი",Toast.LENGTH_SHORT).show()
-            } else if(userNameInput.text?.length == 0) {
-                Toast.makeText(this,"გთხოვთ შეავსოთ USERNAME ველი",Toast.LENGTH_SHORT).show()
+        fun groupAnagrams(anagrams: List<String>): List<List<String>> {
+            val anagramMap = mutableMapOf<String, MutableList<String>>()
 
-            } else if(emailInput.text?.length == 0 ){
-                Toast.makeText(this,"გთხოვთ შეავსოთ EMAIl ველი",Toast.LENGTH_SHORT).show()
+            for( anagram in anagrams){
+                val key = anagram.toList().sorted().joinToString("")
 
-            } else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(emailInput.text).matches()){
-                Toast.makeText(this,"გთხოვთ შეიყვანოთ ვალიდური მეილი",Toast.LENGTH_SHORT).show()
+                if(anagramMap.containsKey(key)){
 
-            } else if(isUniqueEmail(emailInput.text.toString())){
-            Toast.makeText(this,"ეს მეილი უკვე გამოყენებულია",Toast.LENGTH_SHORT).show()
+                    anagramMap[key]?.add(key)
 
-        } else {
-                users.put(emailInput.text.toString(),userNameInput.text.toString())
-                currentUsers.text = "CURRENT USERS ${users.size}"
-                emailInput.text?.clear()
-                userNameInput.text?.clear()
+                } else {
+                    anagramMap[key] = mutableListOf(anagram)
+                }
+
             }
+
+            return anagramMap.values.toList()
         }
 
 
-        val emailInputSearch = binding.emailInputSearch
 
-        val searchButton = binding.getInfo
 
-        val usernameInfo = binding.usernameInfo
-
-        val emailInfo = binding.emailInfo
-
-        val infoView = binding.infoView
-
-        val infoView404 = binding.infoView404
-
-        fun isFoundUser (email : String) : Boolean {
-            return users.containsKey(email)
-        }
-
-        searchButton.setOnClickListener {
-            if(emailInputSearch.text?.length == 0){
-                Toast.makeText(this,"გთხოვთ შეავსოთ EMAIl ველი",Toast.LENGTH_SHORT).show()
-            } else if( !android.util.Patterns.EMAIL_ADDRESS.matcher(emailInputSearch.text).matches() ){
-                Toast.makeText(this,"გთხოვთ შეიყვანოთ ვალიდური მეილი",Toast.LENGTH_SHORT).show()
-
-            } else  if(isFoundUser(emailInputSearch.text.toString())){
-                infoView.visibility = View.VISIBLE
-                infoView404.visibility =View.GONE
-                emailInfo.text = emailInputSearch.text
-                usernameInfo.text = users[emailInputSearch.text.toString()]
+        saveButton.setOnClickListener {
+            if(anagramInput.text?.length == 0){
+                Toast.makeText(this,"გთხოვთ შეავსეთ ველი",Toast.LENGTH_SHORT).show();
             } else {
-                infoView.visibility = View.GONE
-                infoView404.visibility =View.VISIBLE
+                anagramList.add(anagramInput.text.toString())
+                anagramInput.text?.clear()
+
+
             }
+        }
+
+        outputButton.setOnClickListener {
+            anagramCount.text = "ANAGARAMS: ${groupAnagrams(anagramList).size}"
+        }
+
+
+        clearButton.setOnClickListener {
+            anagramInput.text?.clear()
+            anagramCount.text="ANAGARAMS: 0"
+            anagramList.clear()
         }
 
 
 
+
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        println("onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("onStop called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("onDestroy called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("onRestart called")
     }
 
 
