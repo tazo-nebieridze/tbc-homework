@@ -27,96 +27,30 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
-        val anagramInput = binding.anagramInput
-        val saveButton = binding.save
-        val outputButton = binding.output
-        val anagramCount = binding.anagramsCount
-        val clearButton = binding.clear
-
-        val anagramList = mutableListOf<String>();
-
-
-        fun groupAnagrams(anagrams: List<String>): List<List<String>> {
-            val anagramMap = mutableMapOf<String, MutableList<String>>()
-
-            for( anagram in anagrams){
-                val key = anagram.toList().sorted().joinToString("")
-
-                if(anagramMap.containsKey(key)){
-
-                    anagramMap[key]?.add(key)
-
-                } else {
-                    anagramMap[key] = mutableListOf(anagram)
-                }
-
-            }
-
-            return anagramMap.values.toList()
-        }
-
-
-
-
-        saveButton.setOnClickListener {
-            if(anagramInput.text?.length == 0){
-                Toast.makeText(this,"გთხოვთ შეავსეთ ველი",Toast.LENGTH_SHORT).show();
-            } else {
-                anagramList.add(anagramInput.text.toString())
-                anagramInput.text?.clear()
-
-
-            }
-        }
-
-        outputButton.setOnClickListener {
-            anagramCount.text = "ANAGARAMS: ${groupAnagrams(anagramList).size}"
-        }
-
-
-        clearButton.setOnClickListener {
-            anagramInput.text?.clear()
-            anagramCount.text="ANAGARAMS: 0"
-            anagramList.clear()
-        }
-
-
-
-
-
+        setUpTexts()
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        println("onStart called")
+    private fun setUpTexts () {
+        binding.leftArrow.alpha = 0.5f
+        binding.bookmark.alpha = 0.5f
+        binding.mountains.setText(R.string.andes_mountain)
+        binding.location.setText(R.string.south_america)
+        binding.price.setText(R.string.price)
+        binding.dollar.setText(R.string.dollar)
+        binding.priceAmount.setText(R.string.price_amount)
+        binding.overview.setText(R.string.overview)
+        binding.details.setText(R.string.detail)
+        binding.hours.setText(R.string.hours)
+        binding.cel.setText(R.string.cel)
+        binding.startsAmount.setText(R.string.starts_amount)
+        binding.description.setText(R.string.description)
+        binding.bookButton.setText(R.string.book_button)
     }
 
-    override fun onResume() {
-        super.onResume()
-        println("onResume called")
-    }
 
-    override fun onPause() {
-        super.onPause()
-        println("onPause called")
-    }
 
-    override fun onStop() {
-        super.onStop()
-        println("onStop called")
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        println("onDestroy called")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        println("onRestart called")
-    }
 
 
 }
