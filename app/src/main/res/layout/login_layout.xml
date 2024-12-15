@@ -10,8 +10,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/baseline_turn_left_24"
 
+        app:drawableStartCompat="@drawable/baseline_turn_left_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/register_text"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/log_in_text"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:fontFamily="sans-serif-thin"
         android:textStyle="bold"
         android:letterSpacing="0.1"
@@ -39,12 +39,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/editTextLayout"
         >
-        <LinearLayout
-            android:id="@+id/registerFirst"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-           >
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/userEmailText"
@@ -84,7 +78,6 @@
                 android:paddingVertical="20dp"
                 android:background="@drawable/register_button_main"
                 android:layout_weight="1"/>
-        </LinearLayout>
 
     </LinearLayout>
 
