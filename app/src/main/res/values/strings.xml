@@ -15,5 +15,20 @@
     <string name="cel">16 °C</string>
     <string name="starts_amount">4.5</string>
     <string name="book_button">Book Now</string>
+    <string name="main_image">main_image</string>
+    <string name="company_image">company_image</string>
+    <string name="person_image">person_image</string>
+    <string name="user_name">Pawel Czerwinski</string>
+    <string name="user_email">\@pawel_czerwinski</string>
+    <string name="log_in">Log In</string>
+    <string name="register">Register</string>
+    <string name="next">Next</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email_hint">შეიყვანეთ მეილი</string>
+    <string name="password_hint">შეიყვანეთ პაროლი</string>
+    <string name="username_hint">შეიყვანეთ თქვენი სახელი</string>
+    <string name="privacy_police">By signing up, you agree to Photo’s Terms of Service and Privacy Policy.</string>
+    <string name="log_in_text">Log In</string>
+    <string name="log_in_button_text">Log In</string>
 
 </resources>
