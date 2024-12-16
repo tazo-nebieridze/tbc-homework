@@ -44,7 +44,10 @@ class LogInActivity : AppCompatActivity() {
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "გთხოვთ შეავსეთ ყველა ველი", Toast.LENGTH_SHORT).show()
-            } else if (password.length < 6) {
+            } else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                Toast.makeText(this,"გთხოვთ შეიყვანოტ ვალიდური მეილი",Toast.LENGTH_SHORT).show()
+
+            }  else if (password.length < 6) {
                 Toast.makeText(this, "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს", Toast.LENGTH_SHORT).show()
             } else {
                 auth.signInWithEmailAndPassword(email, password)
