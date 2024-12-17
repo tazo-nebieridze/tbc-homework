@@ -11,8 +11,11 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9">
+        android:layout_height="match_parent"
+ >
+
+
+
 
         <ImageView
             android:layout_width="match_parent"
@@ -22,90 +25,153 @@
             android:scaleType="centerCrop"
             />
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_gravity="center"
-            android:contentDescription="@string/company_image"
-            android:src="@drawable/company_name_image" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_gravity="bottom|start">
-
-            <ImageView
-                android:id="@+id/user_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/person_image"
-                android:contentDescription="@string/person_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
+            android:layout_gravity="top"
+            android:layout_marginTop="50dp">
             <TextView
-                android:id="@+id/user_name"
+                android:id="@+id/activaUsers"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/active_users"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/deletedUsers"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/deleted_users"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center">
+            <TextView
+                android:id="@+id/messageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_name"
-                android:textColor="#000000"
                 android:textStyle="bold"
-                android:textSize="14sp"
-                app:layout_constraintTop_toTopOf="@+id/user_img"
-                app:layout_constraintStart_toEndOf="@+id/user_img"
-                app:layout_constraintBottom_toTopOf="@+id/user_email"
-                android:layout_marginStart="8dp"/>
+                android:textSize="25sp"
+                android:layout_gravity="bottom|center"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <TextView
-                android:id="@+id/user_email"
-                android:layout_width="wrap_content"
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/userEmailText"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/input"
+                android:paddingHorizontal="15dp"
+                android:hint="@string/email_hint"
+                android:textColorHint="@color/black"
+                android:paddingVertical="20dp"
+                android:inputType="textEmailAddress"
+                android:layout_marginVertical="10dp"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/input"
+                android:paddingHorizontal="15dp"
+                android:hint="@string/usernamehint"
+                android:textColorHint="@color/black"
+                android:inputType="text"
+                android:paddingVertical="20dp"
+                android:layout_marginVertical="10dp"
+                android:layout_weight="1"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/userLastName"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/input"
+                android:paddingHorizontal="15dp"
+                android:hint="@string/lastnamehint"
+                android:textColorHint="@color/black"
+                android:inputType="text"
+                android:paddingVertical="20dp"
+                android:layout_marginVertical="10dp"
+                android:layout_weight="1"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/useAge"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/input"
+                android:paddingHorizontal="15dp"
+                android:hint="@string/agehint"
+                android:textColorHint="@color/black"
+                android:inputType="number"
+                android:paddingVertical="20dp"
+
+                android:layout_marginVertical="10dp"
+                android:layout_weight="1"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_marginBottom="50dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addUser"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/user_email"
-                android:textColor="#000000"
-                android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@+id/user_name"
-                app:layout_constraintStart_toEndOf="@+id/user_img"
-                app:layout_constraintBottom_toBottomOf="@+id/user_img"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginVertical="10dp"
+                android:text="@string/add_user"
+                android:textColor="@color/black"
+                android:paddingVertical="20dp"
+                android:background="@drawable/login_button_main"
+                android:layout_weight="1"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/deleteUser"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="@string/delete_user"
+                android:textColor="@color/black"
+                android:paddingVertical="20dp"
+                android:background="@drawable/login_button_main"
+                android:layout_weight="1"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/editUser"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="@string/edit_user"
+                android:textColor="@color/black"
+                android:paddingVertical="20dp"
+                android:background="@drawable/login_button_main"
+                android:layout_weight="1"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
     </FrameLayout>
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:paddingHorizontal="15dp"
-        >
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/log_in"
-            android:background="@drawable/login_button_main"
-            android:layout_marginRight="5dp"
-            android:id="@+id/login_button_main"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/register"
-            android:textColor="@color/white"
-            android:background="@drawable/register_button_main"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/register_button_main"
-            />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

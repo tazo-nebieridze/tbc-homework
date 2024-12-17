@@ -30,5 +30,13 @@
     <string name="privacy_police">By signing up, you agree to Photo’s Terms of Service and Privacy Policy.</string>
     <string name="log_in_text">Log In</string>
     <string name="log_in_button_text">Log In</string>
+    <string name="usernamehint">შეიყვანეთ სახელი</string>
+    <string name="lastnamehint">შეიყვანეთ გვარი</string>
+    <string name="agehint">შეიყვანეთ ასაკი</string>
+    <string name="add_user">Add User</string>
+    <string name="delete_user">Delete User</string>
+    <string name="edit_user">Edit User</string>
+    <string name="active_users">Active Users :</string>
+    <string name="deleted_users">Deleted Users :</string>
 
 </resources>
