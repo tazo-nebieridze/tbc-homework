@@ -56,5 +56,12 @@
     <string name="forget_the_passowrd">Forget the passowrd ?</string>
     <string name="login_to_your_account">Login to Your Account</string>
     <string name="already_have_an_account">Already have an account ?</string>
+    <string name="firstname">firstName</string>
+    <string name="lastname">lastName</string>
+    <string name="birthday">birthday</string>
+    <string name="address">address</string>
+    <string name="save">save</string>
+    <string name="search_users">search users</string>
+    <string name="search">search</string>
 
 </resources>
