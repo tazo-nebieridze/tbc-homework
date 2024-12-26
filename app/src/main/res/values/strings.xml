@@ -63,5 +63,13 @@
     <string name="save">save</string>
     <string name="search_users">search users</string>
     <string name="search">search</string>
+    <string name="delivery_address">Delivery address</string>
+    <string name="add_new_address">Add New Adress</string>
+    <string name="location_name">Location Name</string>
+    <string name="location">Location</string>
+    <string name="edit">Edit</string>
+    <string name="home_icon">Home Icon</string>
+    <string name="send_to">SEND TO</string>
+    <string name="delete_location">Delete Location</string>
 
 </resources>
