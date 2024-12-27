@@ -41,7 +41,6 @@ class AddNewLocation : Fragment() {
             }
         }
 
-        addNewLocation()
         handleGoBack()
         deleteLocationButtonClick()
         return binding?.root
