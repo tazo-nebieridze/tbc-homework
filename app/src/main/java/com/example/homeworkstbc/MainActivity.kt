@@ -5,29 +5,56 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.homeworkstbc.databinding.ActivityMainBinding
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    var isEdit: Boolean = false
 
-    var locationId : Int = -1
-
-     val locations = mutableListOf(
-        Location(
-        1,
-     "My Office",
-    "SBI Building, street 3, Software Park",
-        R.drawable.outline_domain_24
+    var orders = mutableListOf(
+        Order(
+            1514,
+            "IK987362341",
+            "13/05/21",
+            2,
+            210,
+            "PENDING"
         ),
-        Location(
-        2,
-        "My Home",
-    "SBI Building, street 4, Software Park",
-            R.drawable.outline_home_24
-        )
-     )
+        Order(
+            1515,
+            "IK987362342",
+            "14/10/21",
+            3,
+            110,
+            "PENDING"
+        ),
+        Order(
+            1516,
+            "IK987362343",
+            "08/01/21",
+            1,
+            80,
+            "PENDING"
+        ),
+        Order(
+            1517,
+            "IK987362344",
+            "08/01/31",
+            3,
+            183,
+            "DELIVERED"
+        ),
+        Order(
+            1518,
+            "IK987362345",
+            "08/05/26",
+            2,
+            93,
+            "CANCELLED"
+        ),
+    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,18 +75,23 @@ class MainActivity : AppCompatActivity() {
         val supportManager = supportFragmentManager
         val transaction = supportManager.beginTransaction()
 
-        val mainFragment = MainFragment()
 
-        transaction.replace(R.id.main, mainFragment, "mainFragment")
+        transaction.replace(
+            R.id.main,
+            MainFragment.newInstance(param1 = "nika", param2 = "dasd"),
+            "mainFragment")
         transaction.addToBackStack("mainFragment")
         transaction.commit()
     }
 
-    data class Location(
-        val id: Int,
-        var name: String,
-        var location: String,
-        val icon: Int
+    data class Order(
+        val orderCount : Int,
+        val id:String,
+        val createdAt: String,
+        val itemsQuantity : Int,
+        val payment : Int,
+        var status: String
+
     )
 
 }

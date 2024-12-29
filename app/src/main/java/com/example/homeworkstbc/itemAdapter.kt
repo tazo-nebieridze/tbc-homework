@@ -1,22 +1,24 @@
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homeworkstbc.MainActivity
 import com.example.homeworkstbc.MainFragment
+import com.example.homeworkstbc.R
 import com.example.homeworkstbc.databinding.ItemCardBinding
 
 
-class ItemsDiffUtil : DiffUtil.ItemCallback<MainActivity.Location>() {
+class ItemsDiffUtil : DiffUtil.ItemCallback<MainActivity.Order>() {
 
-    override fun areItemsTheSame(oldItem: MainActivity.Location, newItem: MainActivity.Location): Boolean {
+    override fun areItemsTheSame(oldItem: MainActivity.Order, newItem: MainActivity.Order): Boolean {
         return oldItem == newItem
     }
 
     override fun areContentsTheSame(
-        oldItem: MainActivity.Location,
-        newItem: MainActivity.Location
+        oldItem: MainActivity.Order,
+        newItem: MainActivity.Order
     ): Boolean {
         return oldItem == newItem
     }
@@ -25,11 +27,10 @@ class ItemsDiffUtil : DiffUtil.ItemCallback<MainActivity.Location>() {
 
 
 class ItemAdapter (
-    private val onOpenEdit: ( Int ) -> Unit,
+    private val openDetails : (Int,String) -> Unit
 )
-    : ListAdapter<MainActivity.Location, ItemAdapter.ItemViewHolder>(ItemsDiffUtil()) {
+    : ListAdapter<MainActivity.Order, ItemAdapter.ItemViewHolder>(ItemsDiffUtil()) {
 
-    private var selectedPosition: Int = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -54,34 +55,23 @@ class ItemAdapter (
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun onBind(item: MainActivity.Location, position: Int) {
-            binding.locationName.text = item.name
-            binding.locationAddress.text = item.location
-            binding.iconLocation.setImageResource(item.icon)
-
-
-            binding.radioButton.isChecked = position == selectedPosition
-
-            binding.radioButton.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    val previousPosition = selectedPosition
-
-                    selectedPosition = getAdapterPosition()
-                    notifyItemChanged(previousPosition)
-                    notifyItemChanged(selectedPosition)
-                }
+        fun onBind(item: MainActivity.Order, position: Int) {
+            binding.orderNumber.text = "Order #${item.orderCount}"
+            binding.createdAt.text = item.createdAt
+            binding.id.text = item.id
+            binding.payment.text = item.payment.toString()
+            binding.quantity.text = item.itemsQuantity.toString()
+            binding.orderStatus.text = item.status
+            val statusColor = when (item.status) {
+                "PENDING" -> R.color.pending
+                "DELIVERED" -> R.color.delivered
+                "CANCELLED" -> R.color.cancelled
+                else -> R.color.pending
             }
-            binding.radioButton.isChecked = position == selectedPosition
-
-
-            if(binding.radioButton.isChecked) {
-                binding.editButton.setOnClickListener {
-                        onOpenEdit(item.id)
-                }
+            binding.orderStatus.setTextColor(ContextCompat.getColor(binding.root.context, statusColor))
+            binding.btnDetails.setOnClickListener {
+                openDetails(item.orderCount,item.status)
             }
-
-
-
         }
     }
 }

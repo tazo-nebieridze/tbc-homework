@@ -71,5 +71,15 @@
     <string name="home_icon">Home Icon</string>
     <string name="send_to">SEND TO</string>
     <string name="delete_location">Delete Location</string>
+    <string name="my_orders">My Orders</string>
+    <string name="pending">Pending</string>
+    <string name="delivered">Delivered</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="details">Details</string>
+    <string name="change_to_delevered">change to delevered</string>
+    <string name="change_to_cancelled">change to cancelled</string>
+    <string name="tracking_number">Tracking number:</string>
+    <string name="quanlity">Quanlity:</string>
+    <string name="subtotal">Subtotal:</string>
 
 </resources>

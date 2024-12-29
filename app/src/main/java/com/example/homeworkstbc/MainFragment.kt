@@ -1,24 +1,46 @@
 package com.example.homeworkstbc
 import ItemAdapter
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homeworkstbc.databinding.FragmentMainFragmentBinding
+
+
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
 
 class MainFragment : Fragment() {
 
     private var binding: FragmentMainFragmentBinding? = null
 
+    private var param1: String? = null
+    private var param2: String? = null
+
+    private var selectedCategory : String = "PENDING"
+
     private val itemAdapter by lazy {
-        ItemAdapter( ) { id ->
-            attachLocationFormFragmentEdit(id)
+        ItemAdapter( ) {
+                number , status ->
+
+            attachDetailsFormFragment(number,status)
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)        }
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,94 +49,100 @@ class MainFragment : Fragment() {
 
         binding = FragmentMainFragmentBinding.inflate(inflater, container, false)
 
-        waitForAddingNewLocation()
-
-        waitForEditLocation()
-
 
 
         attachItemsContainer()
-
-        binding?.addNewLocation?.setOnClickListener {
-            attachLocationFormFragment()
-        }
-
+        handleCategoryChange()
+        waitForAddingNewLocation()
         return binding?.root
     }
 
 
 
 
-    private fun waitForAddingNewLocation ( ) {
-        parentFragmentManager.setFragmentResultListener(
-            "newLocationRequest", viewLifecycleOwner
-        ) { _, bundle ->
-            val name = bundle.getString("locationName")
-            val location = bundle.getString("location")
-            if (name != null && location != null) {
-                val newLocation = MainActivity.Location(
-                    id = ((activity as MainActivity).locations.size ?: 0) + 1,
-                    name = name,
-                    location = location,
-                    icon = R.drawable.outline_home_24
-                )
-                addLocation(newLocation)
-            }
-        }
-    }
+    companion object {
 
-    private fun waitForEditLocation ( ) {
-        parentFragmentManager.setFragmentResultListener(
-            "editLocationRequest", viewLifecycleOwner
-        ) { _, bundle ->
-            val name = bundle.getString("locationName")
-            val location = bundle.getString("location")
-            if (name != null && location != null) {
-
-                (activity as MainActivity).locations.forEach { singleLocation ->
-
-                    if(singleLocation.id == (activity as MainActivity).locationId){
-                        singleLocation.name = name
-                        singleLocation.location = location
-                        (activity as MainActivity).isEdit = false
-                        (activity as MainActivity).locationId = -1
-                    }
+        fun newInstance(param1: String, param2 : String ) =
+            MainFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
+            }
+    }
 
+
+
+    private fun handleCategoryChange() {
+        val categories = mapOf(
+            "PENDING" to binding?.pendingCategory,
+            "DELIVERED" to binding?.deliveredCategory,
+            "CANCELLED" to binding?.cancelledCategory
+        )
+
+        categories.forEach { (category, view) ->
+            view?.setOnClickListener {
+                if (selectedCategory != category) {
+                    view.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    view.setBackgroundResource(R.drawable.add_new_button)
+
+                    categories[selectedCategory]?.let { previousView ->
+                        previousView.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                        previousView.background = null
+                    }
+
+                    selectedCategory = category
+                    itemAdapter.submitList((activity as MainActivity).orders.filter { it.status == selectedCategory })
+
+                }
             }
         }
     }
 
-    private fun addLocation(location: MainActivity.Location) {
 
-        (activity as MainActivity).locations.add(0,location)
-
-
-    }
 
     private fun attachItemsContainer() {
         binding?.itemRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.itemRecyclerView?.adapter = itemAdapter
-        itemAdapter.submitList((activity as MainActivity).locations)
+        itemAdapter.submitList((activity as MainActivity).orders.filter { it.status == selectedCategory })
     }
 
-    private fun attachLocationFormFragment() {
+
+    private fun attachDetailsFormFragment( number : Int, status : String) {
 
         val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.main, AddNewLocation(), "locationFormFragment")
+        transaction.replace(
+            R.id.main,
+            Details.newInstance(number,status),
+            "DetailsFragment")
         transaction.commit()
     }
 
-    private fun attachLocationFormFragmentEdit ( id : Int ) {
 
-        (activity as MainActivity).isEdit = true
-        (activity as MainActivity).locationId = id
 
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.main, AddNewLocation(), "locationFormFragment")
-        transaction.commit()
 
+    private fun waitForAddingNewLocation() {
+        parentFragmentManager.setFragmentResultListener(
+            "statusChangeRequest", viewLifecycleOwner
+        ) { _, bundle ->
+            val newStatus = bundle.getString("statusChangedTo")
+            val selectedOrderNumber = bundle.getInt("orderNumber")
+
+            val updatedOrders = (activity as MainActivity).orders
+
+            val orderIndex = updatedOrders.indexOfFirst { it.orderCount == selectedOrderNumber }
+            if (orderIndex != -1) {
+                updatedOrders[orderIndex].status = newStatus!!
+
+                (activity as MainActivity).orders = updatedOrders
+            }
+
+            itemAdapter.submitList(updatedOrders.filter { it.status == selectedCategory })
+        }
     }
+
+
+
 
 
 

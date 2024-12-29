@@ -1,94 +1,150 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginVertical="20dp"
-    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="16dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="8dp"
-    android:id="@+id/locationCard"
     app:cardBackgroundColor="@android:color/white">
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/radio_button"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:clickable="true"
-            app:buttonTint="@color/black"
-            android:focusable="true" />
+            android:orientation="horizontal"
+            android:layout_marginVertical="10dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/orderNumber"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@android:color/black" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/createdAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#777E90" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="10dp"
+
+            >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/tracking_number"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="#777E90" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/id"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="10dp"
+            >
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginStart="8dp">
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/send_to_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/send_to"
+                android:textSize="14sp"
+                android:text="@string/quanlity"
+                android:textColor="#777E90" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="12sp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/icon_location"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/outline_home_24"
-                    android:contentDescription="@string/home_icon" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/location_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/location_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp" />
+                android:textColor="@color/black" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:id="@+id/edit_button"
-            >
-            <androidx.appcompat.widget.AppCompatTextView
-
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/edit"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="14sp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp" />
-        </FrameLayout>
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="@string/subtotal"
+                    android:textColor="#777E90" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginVertical="10dp"
+            >
+
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/orderStatus"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textColor="@color/pending"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                 />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/details_button"
+                android:text="@string/details"
+                android:textColorHint="@color/black"
+                android:textAllCaps="false"
+                android:paddingVertical="3dp"
+                android:paddingHorizontal="10dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.cardview.widget.CardView>

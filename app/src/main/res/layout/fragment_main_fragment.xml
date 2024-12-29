@@ -8,41 +8,115 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/delivery_address"
-        android:layout_marginVertical="60dp"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/baseline_format_list_bulleted_24"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="@string/my_orders"
+            android:layout_marginVertical="60dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+       />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/outline_notifications_24"/>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/buttonsPanel"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pendingCategory"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/add_new_button"
+            android:text="@string/pending"
+            android:textSize="13sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginHorizontal="15dp"
+            android:paddingHorizontal="25dp"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/deliveredCategory"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:text="@string/delivered"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
+            android:textAllCaps="false"
+            android:textSize="13sp"
+            android:layout_marginHorizontal="15dp"
+            android:paddingHorizontal="25dp"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cancelledCategory"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:text="@string/cancelled"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
+            android:textAllCaps="false"
+            android:textSize="13sp"
+            android:layout_marginHorizontal="15dp"
+            android:paddingHorizontal="25dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        android:paddingTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/buttonsPanel"
+        app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.53"
         android:orientation="vertical" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addNewLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/add_new_button"
-        android:textColor="@color/white"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/itemRecyclerView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/add_new_address" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
