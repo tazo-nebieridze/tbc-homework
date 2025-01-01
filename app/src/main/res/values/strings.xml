@@ -81,5 +81,8 @@
     <string name="tracking_number">Tracking number:</string>
     <string name="quanlity">Quanlity:</string>
     <string name="subtotal">Subtotal:</string>
+    <string name="type_your_messages_here">Type your messages here</string>
+    <string name="admin">Admin</string>
+    <string name="online">online</string>
 
 </resources>

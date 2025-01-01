@@ -6,73 +6,116 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homeworkstbc.MainActivity
 import com.example.homeworkstbc.MainFragment
+import com.example.homeworkstbc.Message
 import com.example.homeworkstbc.R
-import com.example.homeworkstbc.databinding.ItemCardBinding
+import com.example.homeworkstbc.SenderType
+import com.example.homeworkstbc.databinding.MyMessagesBinding
+import com.example.homeworkstbc.databinding.OtherMessagesBinding
+import java.util.Date
 
 
-class ItemsDiffUtil : DiffUtil.ItemCallback<MainActivity.Order>() {
+class ItemsDiffUtil : DiffUtil.ItemCallback<Message>() {
 
-    override fun areItemsTheSame(oldItem: MainActivity.Order, newItem: MainActivity.Order): Boolean {
+    override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
         return oldItem == newItem
     }
 
     override fun areContentsTheSame(
-        oldItem: MainActivity.Order,
-        newItem: MainActivity.Order
+        oldItem: Message,
+        newItem: Message
     ): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id
     }
 
 }
 
 
 class ItemAdapter (
-    private val openDetails : (Int,String) -> Unit
+    private val formatDate : (Date) -> String
 )
-    : ListAdapter<MainActivity.Order, ItemAdapter.ItemViewHolder>(ItemsDiffUtil()) {
+    : ListAdapter<Message, RecyclerView.ViewHolder>(ItemsDiffUtil()) {
+
+        companion object{
+            const val CURRENT_USER = 1
+            const val OTHER_USER = 2
+        }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(
-            ItemCardBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        return if (viewType == CURRENT_USER)
+            CurrentViewHolder(
+                MyMessagesBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
                 false
+                )
             )
-        )
+                else
+
+            OtherViewHolder(
+                OtherMessagesBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.onBind(item, position)
+    override fun getItemViewType(position: Int): Int {
+
+        return if (getItem(position).sender == SenderType.CURRENT)
+            CURRENT_USER
+        else
+            OTHER_USER
+
+    }
+
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+        if ( holder is CurrentViewHolder ){
+
+            holder.onBind(position)
+
+        } else if ( holder is OtherViewHolder ){
+
+            holder.onBind(position)
+
+        }
 
 
     }
 
 
 
-    inner class ItemViewHolder(private val binding: ItemCardBinding) :
+    inner class CurrentViewHolder(private val binding: MyMessagesBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun onBind(item: MainActivity.Order, position: Int) {
-            binding.orderNumber.text = "Order #${item.orderCount}"
-            binding.createdAt.text = item.createdAt
-            binding.id.text = item.id
-            binding.payment.text = item.payment.toString()
-            binding.quantity.text = item.itemsQuantity.toString()
-            binding.orderStatus.text = item.status
-            val statusColor = when (item.status) {
-                "PENDING" -> R.color.pending
-                "DELIVERED" -> R.color.delivered
-                "CANCELLED" -> R.color.cancelled
-                else -> R.color.pending
-            }
-            binding.orderStatus.setTextColor(ContextCompat.getColor(binding.root.context, statusColor))
-            binding.btnDetails.setOnClickListener {
-                openDetails(item.orderCount,item.status)
-            }
+        fun onBind( position: Int) {
+            val item = getItem(position)
+            val formattedDate = formatDate(item.date)
+
+            binding.myText.text = item.text
+
+            binding.date.text = formattedDate.toString()
         }
+
+    }
+
+    inner class OtherViewHolder(private val binding: OtherMessagesBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+
+        fun onBind( position: Int) {
+            val item = getItem(position)
+            val formattedDate = formatDate(item.date)
+
+            binding.otherText.text = item.text
+            binding.date.text = formattedDate.toString()
+        }
+
     }
 }
 

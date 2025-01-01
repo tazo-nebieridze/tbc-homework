@@ -11,7 +11,9 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+
         android:orientation="horizontal"
         android:paddingHorizontal="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,86 +25,67 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/baseline_format_list_bulleted_24"/>
+            android:drawableStart="@drawable/baseline_arrow_back_ios_24"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/personContainer"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/person"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintTop_toTopOf="@+id/personContainer"
+                app:layout_constraintBottom_toBottomOf="@+id/personContainer"
+                app:layout_constraintStart_toStartOf="@+id/personContainer"
+                android:background="@drawable/person_background"
+                android:drawableStart="@drawable/baseline_person_24"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/personContainer"
+                app:layout_constraintStart_toEndOf="@+id/person"
+                android:layout_marginStart="10dp"
+                android:text="@string/admin"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/personContainer"
+                app:layout_constraintStart_toEndOf="@+id/person"
+                android:layout_marginStart="10dp"
+                android:text="@string/online"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
-            android:text="@string/my_orders"
-            android:layout_marginVertical="60dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-medium"
-       />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/outline_notifications_24"/>
+            android:drawableEnd="@drawable/baseline_more_vert_24"/>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/buttonsPanel"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/pendingCategory"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="match_parent"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:background="@drawable/add_new_button"
-            android:text="@string/pending"
-            android:textSize="13sp"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginHorizontal="15dp"
-            android:paddingHorizontal="25dp"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/deliveredCategory"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="match_parent"
-            android:text="@string/delivered"
-            android:clickable="true"
-            android:focusable="true"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
-            android:textAllCaps="false"
-            android:textSize="13sp"
-            android:layout_marginHorizontal="15dp"
-            android:paddingHorizontal="25dp"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cancelledCategory"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="match_parent"
-            android:text="@string/cancelled"
-            android:clickable="true"
-            android:focusable="true"
-            android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
-            android:textAllCaps="false"
-            android:textSize="13sp"
-            android:layout_marginHorizontal="15dp"
-            android:paddingHorizontal="25dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#D3D3D3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -110,11 +93,51 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/buttonsPanel"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newMessageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:background="@drawable/new_message_edit_text"
+            android:hint="@string/type_your_messages_here"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintStart_toStartOf="@+id/newMessageContainer"
+            app:layout_constraintEnd_toStartOf="@+id/messageButton"
+            app:layout_constraintTop_toTopOf="@+id/newMessageContainer"
+            app:layout_constraintBottom_toBottomOf="@+id/newMessageContainer"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/messageButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/add_new_message_button"
+            android:drawableStart="@drawable/baseline_send_24"
+            app:layout_constraintTop_toTopOf="@+id/newMessageContainer"
+            app:layout_constraintBottom_toBottomOf="@+id/newMessageContainer"
+            app:layout_constraintEnd_toEndOf="@+id/newMessageContainer"
+            app:layout_constraintStart_toEndOf="@+id/editText"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 

@@ -12,48 +12,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
 
-    var orders = mutableListOf(
-        Order(
-            1514,
-            "IK987362341",
-            "13/05/21",
-            2,
-            210,
-            "PENDING"
-        ),
-        Order(
-            1515,
-            "IK987362342",
-            "14/10/21",
-            3,
-            110,
-            "PENDING"
-        ),
-        Order(
-            1516,
-            "IK987362343",
-            "08/01/21",
-            1,
-            80,
-            "PENDING"
-        ),
-        Order(
-            1517,
-            "IK987362344",
-            "08/01/31",
-            3,
-            183,
-            "DELIVERED"
-        ),
-        Order(
-            1518,
-            "IK987362345",
-            "08/05/26",
-            2,
-            93,
-            "CANCELLED"
-        ),
-    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,14 +42,6 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    data class Order(
-        val orderCount : Int,
-        val id:String,
-        val createdAt: String,
-        val itemsQuantity : Int,
-        val payment : Int,
-        var status: String
 
-    )
 
 }

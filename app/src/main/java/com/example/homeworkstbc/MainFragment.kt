@@ -1,15 +1,21 @@
 package com.example.homeworkstbc
 import ItemAdapter
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homeworkstbc.databinding.FragmentMainFragmentBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 
 private const val ARG_PARAM1 = "param1"
@@ -23,21 +29,21 @@ class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private var selectedCategory : String = "PENDING"
 
     private val itemAdapter by lazy {
-        ItemAdapter( ) {
-                number , status ->
-
-            attachDetailsFormFragment(number,status)
+        ItemAdapter { date ->
+            formatMessageDate(date)
         }
     }
+
+    private var messages = mutableListOf<Message>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)        }
+            param2 = it.getString(ARG_PARAM2)
+        }
     }
 
 
@@ -50,11 +56,14 @@ class MainFragment : Fragment() {
         binding = FragmentMainFragmentBinding.inflate(inflater, container, false)
 
 
-
-        attachItemsContainer()
-        handleCategoryChange()
-        waitForAddingNewLocation()
         return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        handleNewMessage()
+        attachItemsContainer()
+
     }
 
 
@@ -73,75 +82,55 @@ class MainFragment : Fragment() {
 
 
 
-    private fun handleCategoryChange() {
-        val categories = mapOf(
-            "PENDING" to binding?.pendingCategory,
-            "DELIVERED" to binding?.deliveredCategory,
-            "CANCELLED" to binding?.cancelledCategory
-        )
+    private fun handleNewMessage ( ) {
+        binding?.messageButton?.setOnClickListener {
+            if(binding?.editText?.text!!.isEmpty()){
+                Toast.makeText(requireContext(),"can not add empty message", Toast.LENGTH_SHORT).show()
+            } else {
+                val newMessageList = messages
+                newMessageList.add(
+                    Message(
+                        id = UUID.randomUUID().toString(),
+                        text = binding?.editText?.text.toString(),
+                        date = Date(),
+                        sender = if (messages.size % 2 == 0 ) SenderType.OTHER else SenderType.CURRENT
+                    )
+                )
+                messages = newMessageList
 
-        categories.forEach { (category, view) ->
-            view?.setOnClickListener {
-                if (selectedCategory != category) {
-                    view.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                    view.setBackgroundResource(R.drawable.add_new_button)
+                itemAdapter.submitList(newMessageList)
 
-                    categories[selectedCategory]?.let { previousView ->
-                        previousView.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                        previousView.background = null
-                    }
+                binding?.editText?.text!!.clear()
 
-                    selectedCategory = category
-                    itemAdapter.submitList((activity as MainActivity).orders.filter { it.status == selectedCategory })
-
-                }
+                val inputMethodManager =
+                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(binding?.editText?.windowToken, 0)
             }
         }
     }
-
 
 
     private fun attachItemsContainer() {
         binding?.itemRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding?.itemRecyclerView?.adapter = itemAdapter
-        itemAdapter.submitList((activity as MainActivity).orders.filter { it.status == selectedCategory })
+        itemAdapter.submitList(messages)
     }
 
 
-    private fun attachDetailsFormFragment( number : Int, status : String) {
-
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.main,
-            Details.newInstance(number,status),
-            "DetailsFragment")
-        transaction.commit()
-    }
-
-
-
-
-    private fun waitForAddingNewLocation() {
-        parentFragmentManager.setFragmentResultListener(
-            "statusChangeRequest", viewLifecycleOwner
-        ) { _, bundle ->
-            val newStatus = bundle.getString("statusChangedTo")
-            val selectedOrderNumber = bundle.getInt("orderNumber")
-
-            val updatedOrders = (activity as MainActivity).orders
-
-            val orderIndex = updatedOrders.indexOfFirst { it.orderCount == selectedOrderNumber }
-            if (orderIndex != -1) {
-                updatedOrders[orderIndex].status = newStatus!!
-
-                (activity as MainActivity).orders = updatedOrders
-            }
-
-            itemAdapter.submitList(updatedOrders.filter { it.status == selectedCategory })
+  private  fun formatMessageDate(date: Date): String {
+        val today = Date()
+        val dateFormat = if (isSameDay(date, today)) {
+            SimpleDateFormat("'Today,' h:mm a", Locale.getDefault())
+        } else {
+            SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
         }
+        return dateFormat.format(date)
     }
 
-
+   private fun isSameDay(date1: Date, date2: Date): Boolean {
+        val sdf = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        return sdf.format(date1) == sdf.format(date2)
+    }
 
 
 
