@@ -1,10 +1,12 @@
 package com.example.homeworkstbc
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.homeworkstbc.databinding.ActivityMainBinding
+import kotlinx.android.parcel.Parcelize
 import java.util.Date
 
 class MainActivity : AppCompatActivity() {
@@ -30,16 +32,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun attachMainFragment() {
-        val supportManager = supportFragmentManager
-        val transaction = supportManager.beginTransaction()
-
-
-        transaction.replace(
-            R.id.main,
-            MainFragment.newInstance(param1 = "nika", param2 = "dasd"),
-            "mainFragment")
-        transaction.addToBackStack("mainFragment")
-        transaction.commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main, ConfigurationFragment(),"configurationFragment")
+            .addToBackStack("configurationFragment")
+            .commit()
     }
 
 

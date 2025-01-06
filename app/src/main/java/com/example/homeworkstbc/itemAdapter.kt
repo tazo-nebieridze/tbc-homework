@@ -1,121 +1,59 @@
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.homeworkstbc.MainActivity
-import com.example.homeworkstbc.MainFragment
-import com.example.homeworkstbc.Message
 import com.example.homeworkstbc.R
-import com.example.homeworkstbc.SenderType
-import com.example.homeworkstbc.databinding.MyMessagesBinding
-import com.example.homeworkstbc.databinding.OtherMessagesBinding
-import java.util.Date
+import com.example.homeworkstbc.databinding.GameItemBinding
 
+data class GameCell(val position: Int, val symbol: String)
 
-class ItemsDiffUtil : DiffUtil.ItemCallback<Message>() {
+class GameBoardDiffUtil : DiffUtil.ItemCallback<GameCell>() {
 
-    override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
+    override fun areItemsTheSame(oldItem: GameCell, newItem: GameCell): Boolean {
+        return oldItem.position == newItem.position
+    }
+
+    override fun areContentsTheSame(oldItem: GameCell, newItem: GameCell): Boolean {
         return oldItem == newItem
     }
-
-    override fun areContentsTheSame(
-        oldItem: Message,
-        newItem: Message
-    ): Boolean {
-        return oldItem.id == newItem.id
-    }
-
 }
 
+class GameBoardAdapter(
+    private val onCellClick: (Int) -> Unit
+) : ListAdapter<GameCell, GameBoardAdapter.ViewHolder>(GameBoardDiffUtil()) {
 
-class ItemAdapter (
-    private val formatDate : (Date) -> String
-)
-    : ListAdapter<Message, RecyclerView.ViewHolder>(ItemsDiffUtil()) {
-
-        companion object{
-            const val CURRENT_USER = 1
-            const val OTHER_USER = 2
-        }
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        return if (viewType == CURRENT_USER)
-            CurrentViewHolder(
-                MyMessagesBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                false
-                )
-            )
-                else
-
-            OtherViewHolder(
-                OtherMessagesBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-            )
-    }
-
-    override fun getItemViewType(position: Int): Int {
-
-        return if (getItem(position).sender == SenderType.CURRENT)
-            CURRENT_USER
-        else
-            OTHER_USER
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = GameItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
-        if ( holder is CurrentViewHolder ){
-
-            holder.onBind(position)
-
-        } else if ( holder is OtherViewHolder ){
-
-            holder.onBind(position)
-
-        }
-
-
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position), position)
     }
 
+    inner class ViewHolder(val binding: GameItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        fun bind(cell: GameCell, position: Int) {
+            binding.gameCellButton.setOnClickListener {
+                onCellClick(position)
+            }
+            if (cell.symbol == "X") {
+                binding.gameCellButton.setImageResource(R.drawable.baseline_close_24)
+            } else if (cell.symbol == "O") {
+                binding.gameCellButton.setImageResource(R.drawable.baseline_circle_24)
+            } else {
+                binding.gameCellButton.setImageResource(R.drawable.baseline_crop_5_4_24)
+            }
 
-    inner class CurrentViewHolder(private val binding: MyMessagesBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-
-        fun onBind( position: Int) {
-            val item = getItem(position)
-            val formattedDate = formatDate(item.date)
-
-            binding.myText.text = item.text
-
-            binding.date.text = formattedDate.toString()
+            binding.gameCellButton.isEnabled = cell.symbol.isEmpty()
         }
-
-    }
-
-    inner class OtherViewHolder(private val binding: OtherMessagesBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-
-        fun onBind( position: Int) {
-            val item = getItem(position)
-            val formattedDate = formatDate(item.date)
-
-            binding.otherText.text = item.text
-            binding.date.text = formattedDate.toString()
-        }
-
     }
 }
-
