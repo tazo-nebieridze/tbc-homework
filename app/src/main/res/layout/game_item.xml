@@ -1,9 +1,0 @@
-<androidx.appcompat.widget.AppCompatImageButton xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gameCellButton"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:layout_margin="4dp"
-    android:scaleType="centerInside"
-    android:contentDescription="@string/imagebutton"
-    android:background="@android:color/transparent"
-    android:src="@drawable/baseline_crop_5_4_24" />

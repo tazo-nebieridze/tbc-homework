@@ -5,6 +5,8 @@ import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.homeworkstbc.databinding.ActivityMainBinding
 import kotlinx.android.parcel.Parcelize
 import java.util.Date
@@ -27,16 +29,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        attachMainFragment()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main) as NavHostFragment
+        val navController = navHostFragment.navController
     }
 
-    private fun attachMainFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main, ConfigurationFragment(),"configurationFragment")
-            .addToBackStack("configurationFragment")
-            .commit()
-    }
 
 
 

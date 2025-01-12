@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
     id ("kotlin-parcelize")
+    kotlin("plugin.serialization") version "2.0.21"
+    id ("androidx.navigation.safeargs.kotlin") version "2.8.5"
 
 }
 
@@ -12,7 +14,6 @@ android {
     compileSdk = 35
     buildFeatures {
         viewBinding = true
-        dataBinding = true
     }
     defaultConfig {
         applicationId = "com.example.homeworkstbc"
@@ -43,8 +44,12 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    val nav_version = "2.8.5"
+
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
+    implementation ("com.google.android.material:material:1.9.0")
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation(libs.androidx.core.ktx)
