@@ -98,5 +98,21 @@
     <string name="please_share_your_review">Please share your review...</string>
     <string name="how_is_your_order">How Is Your Order ?</string>
     <string name="please_give_your_rating_and_also_your_review">please give your rating and also your review...</string>
+    <string name="payment">Payment</string>
+    <string name="card_management">Card Management</string>
+    <string name="add_new">Add new+</string>
+    <string name="or_check_out_with">or check out with</string>
+    <string name="valid_thru">VALID THRU</string>
+    <string name="add_new_card">Add new card</string>
+    <string name="name">Name</string>
+    <string name="mm_yy">MM/YY</string>
+    <string name="cardholder_name">Cardholder Name</string>
+    <string name="card_holder_s_name">Card Holder\'s Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="expires">Expires</string>
+    <string name="cvv">CVV</string>
+    <string name="add_card">Add Card</string>
+    <string name="visa">VISA</string>
+    <string name="mastercard">MASTERCARD</string>
 
 </resources>

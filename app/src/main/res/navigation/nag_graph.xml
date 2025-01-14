@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nag_graph"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
     <fragment
@@ -10,7 +9,30 @@
         android:name="com.example.homeworkstbc.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
-
+        <action
+            android:id="@+id/action_mainFragment_to_deleteCardDialogFragment"
+            app:destination="@id/deleteCardDialogFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newCard"
+            app:destination="@id/newCard"
+            />
     </fragment>
 
+    <dialog
+        android:id="@+id/deleteCardDialogFragment"
+        android:name="com.example.homeworkstbc.DeleteCardDialogFragment"
+        android:label="Delete Card Dialog" >
+        <argument
+            android:name="cardId"
+            app:argType="string" />
+    </dialog>
+    <fragment
+        android:id="@+id/newCard"
+        android:name="com.example.homeworkstbc.NewCard"
+        android:label="fragment_new_card"
+        tools:layout="@layout/fragment_new_card">
+        <action
+            android:id="@+id/action_newCard_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

@@ -29,8 +29,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main) as NavHostFragment
-        val navController = navHostFragment.navController
+
     }
 
 

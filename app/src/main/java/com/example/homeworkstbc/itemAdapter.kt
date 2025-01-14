@@ -6,27 +6,25 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.homeworkstbc.Item
 import com.example.homeworkstbc.R
-import com.example.homeworkstbc.StatusType
 import com.example.homeworkstbc.databinding.RecyclerItemBinding
 import com.google.common.io.Resources
 
 
-class DiffUtil : DiffUtil.ItemCallback<Item>() {
+class DiffUtil : DiffUtil.ItemCallback<Card>() {
 
-    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+    override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-        return oldItem.feedBack == newItem.feedBack
+    override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {
+        return oldItem == newItem
     }
 }
 
 class ItemAdapter(
-    private val showFeedbackModal :  (Item, Int) -> Unit
-) : ListAdapter<Item, ItemAdapter.ViewHolder>(DiffUtil()) {
+    private val showFeedbackModal :  (Card, Int) -> Unit
+) : ListAdapter<Card, ItemAdapter.ViewHolder>(DiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecyclerItemBinding.inflate(
@@ -45,29 +43,8 @@ class ItemAdapter(
 
     inner class ViewHolder(private val binding: RecyclerItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Item, position: Int) {
-            binding.itemName.text = item.name
-            binding.itemPrice.text = "$ ${item.totalPrice}"
-            binding.itemImage.setImageResource(item.picture)
-            binding.itemDetails.text = "${item.colorName} | Qty = ${item.quantity}"
-            binding.itemColor.backgroundTintList = ContextCompat.getColorStateList(binding.root.context, item.color)
+        fun bind(item: Card, position: Int) {
 
-            when {
-                item.status == StatusType.ACTIVE -> {
-                    binding.buyAgainButton.text = "Track Order"
-                    binding.buyAgainButton.setOnClickListener(null)
-                }
-                item.status == StatusType.COMPLETED && item.feedBack == null -> {
-                    binding.buyAgainButton.text = "Leave Review"
-                    binding.buyAgainButton.setOnClickListener {
-                        showFeedbackModal(item, position)
-                    }
-                }
-                else -> {
-                    binding.buyAgainButton.text = "Buy Again"
-                    binding.buyAgainButton.setOnClickListener(null)
-                }
-            }
         }
 
     }
