@@ -1,12 +1,10 @@
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.homeworkstbc.CardType
 import java.util.UUID
 
 class CardViewModel : ViewModel() {
 
-    private val _cards = MutableLiveData<List<Card>>(mutableListOf(
+    private val cards = mutableListOf(
         Card(
             UUID.randomUUID().toString(),
             "Tamazi nebieridze",
@@ -34,21 +32,15 @@ class CardViewModel : ViewModel() {
             "99",
             CardType.VISA
         )
-    ))
-    val cards: LiveData<List<Card>> = _cards
+    )
+
+    fun getCards(): List<Card> = cards
 
     fun addCard(card: Card) {
-        val updatedList = _cards.value.orEmpty().toMutableList()
-        updatedList.add(card)
-        _cards.value = updatedList
+        cards.add(card)
     }
 
     fun deleteCard(cardId: String) {
-        val updatedList = _cards.value.orEmpty().filter { it.id != cardId }
-        _cards.value = updatedList
-    }
-
-    override fun onCleared() {
-        super.onCleared()
+        cards.removeAll { it.id == cardId }
     }
 }

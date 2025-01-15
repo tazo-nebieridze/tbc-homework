@@ -23,9 +23,10 @@ class CardAdapter(
 ) : ListAdapter<Card,CardAdapter.CardViewHolder>(DiffUtil1()) {
 
     inner class CardViewHolder(private val binding: CardRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(card: Card) {
             binding.cardholderNameValue.text = card.holder
-            binding.cardNumber.text = card.cardNumber.toString()
+            binding.cardNumber.text = card.cardNumber
             binding.validThruDate.text = "${card.expiryMonth}/${card.expiryYear}"
 
             val cardLogo = when (card.cardType) {
