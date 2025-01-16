@@ -1,81 +1,101 @@
 package com.example.homeworkstbc
 
-import Card
-import CardAdapter
 import CardViewModel
+import InputAdapter
+import ItemAdapter
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.homeworkstbc.databinding.FragmentMainBinding
+import com.example.homeworkstbc.databinding.InputRecyclerBinding
+import com.example.homeworkstbc.databinding.RecyclerItemBinding
+import kotlinx.serialization.json.Json
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private val cardViewModel: CardViewModel by viewModels()
-    private lateinit var cardAdapter: CardAdapter
+
+
+    private val itemAdapter by lazy {
+        ItemAdapter(cardViewModel.inputsData)  {
+                binding, item ->
+            attachInputsRecycler(binding,item)
+
+        }
+    }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpViewPager()
-        updateAdapter()
-        listenToDialogResult()
-        newCard()
-        listenToFragmentResult()
-    }
+        val inputsList = cardViewModel.inputsData
 
-    private fun navigateToDialog (cardId: String ) {
-        val action = MainFragmentDirections.actionMainFragmentToDeleteCardDialogFragment(cardId)
-        findNavController().navigate(action)
-    }
-
-    private fun setUpViewPager() {
-        cardAdapter = CardAdapter { cardId ->
-            navigateToDialog(cardId)
+        inputsList.forEachIndexed { index, list ->
+            Log.d("MainFragment", "Group $index:")
+            list.forEach { input ->
+                Log.d("MainFragment", "Input: $input")
+            }
         }
-
-        binding.viewPager.adapter = cardAdapter
-        binding.viewPager.setPageTransformer { page, position ->
-            page.scaleY = 1 - (0.2f * Math.abs(position))
-        }
+        attachAdapter()
+        handleSubmit()
     }
 
-    private fun updateAdapter() {
-        val cards = cardViewModel.getCards()
-        cardAdapter.submitList(cards.toList())
+    private  fun attachAdapter ( ) {
+        binding.itemRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.itemRecyclerView.adapter = itemAdapter
     }
 
-    private fun listenToDialogResult() {
-        parentFragmentManager.setFragmentResultListener("deleteCardResult", this) { _, bundle ->
-            val cardId = bundle.getString("cardId")
-            val isDeleted = bundle.getBoolean("isDeleted", false)
+    private fun handleSubmit ( ) {
+        binding.submitButton.setOnClickListener {
+            val missingFields = mutableListOf<String>()
 
-            if (cardId != null && isDeleted) {
-                cardViewModel.deleteCard(cardId)
-                updateAdapter()
+            cardViewModel.inputsData.forEach { group ->
+                group.forEach { input ->
+                    val value = cardViewModel.fieldValues[input.fieldId]
+
+                    if (input.required && (value.isNullOrEmpty())) {
+                        missingFields.add(input.hint.toString())
+                    }
+                }
+            }
+
+            if (missingFields.isNotEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please fill required fields: ${missingFields.joinToString(", ")}",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Log.d("MainFragment", "${cardViewModel.fieldValues}")
             }
         }
     }
 
-    private fun newCard() {
-        binding.addNewCard.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToNewCard()
-            findNavController().navigate(action)
-        }
+    private fun saveValues (key:Int, value:String ) {
+
+        cardViewModel.fieldValues[key] = value
     }
 
-    private fun listenToFragmentResult() {
-        parentFragmentManager.setFragmentResultListener("newCardResult", this) { _, bundle ->
-            val newCard = bundle.getParcelable<Card>("newCard")
-            if (newCard != null) {
-                cardViewModel.addCard(newCard)
-                updateAdapter()
-            }
+    private fun attachInputsRecycler(binding: RecyclerItemBinding, item: List<Input>) {
+        binding.inputRecyclerView.layoutManager = LinearLayoutManager(binding.root.context)
+
+        val innerAdapter = InputAdapter() {
+            key, value ->
+            saveValues(key,value)
         }
+        binding.inputRecyclerView.adapter = innerAdapter
+
+        innerAdapter.submitList(item)
     }
+
 }

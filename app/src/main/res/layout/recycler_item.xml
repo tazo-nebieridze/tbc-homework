@@ -6,6 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
-    app:cardBackgroundColor="#000053">
+    android:elevation="8dp"
+    android:padding="10dp"
+    app:cardBackgroundColor="#ffffff">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inputRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical" />
 
 </androidx.cardview.widget.CardView>

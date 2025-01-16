@@ -114,5 +114,7 @@
     <string name="add_card">Add Card</string>
     <string name="visa">VISA</string>
     <string name="mastercard">MASTERCARD</string>
+    <string name="select_date">select date</string>
+    <string name="no_date_selected">no date selected</string>
 
 </resources>
