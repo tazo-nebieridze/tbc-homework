@@ -9,30 +9,23 @@
         android:name="com.example.homeworkstbc.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_deleteCardDialogFragment"
-            app:destination="@id/deleteCardDialogFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_newCard"
-            app:destination="@id/newCard"
-            />
-    </fragment>
 
-    <dialog
-        android:id="@+id/deleteCardDialogFragment"
-        android:name="com.example.homeworkstbc.DeleteCardDialogFragment"
-        android:label="Delete Card Dialog" >
-        <argument
-            android:name="cardId"
-            app:argType="string" />
-    </dialog>
-    <fragment
-        android:id="@+id/newCard"
-        android:name="com.example.homeworkstbc.NewCard"
-        android:label="fragment_new_card"
-        tools:layout="@layout/fragment_new_card">
         <action
-            android:id="@+id/action_newCard_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_mainFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.homeworkstbc.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.homeworkstbc.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+
 </navigation>

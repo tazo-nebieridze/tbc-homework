@@ -45,6 +45,10 @@ android {
 
 dependencies {
     val nav_version = "2.8.5"
+    implementation (libs.logging.interceptor)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
