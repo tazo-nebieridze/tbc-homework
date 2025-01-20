@@ -10,22 +10,7 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
 
-        <action
-            android:id="@+id/action_mainFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+
     </fragment>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.homeworkstbc.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.homeworkstbc.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
 
 </navigation>

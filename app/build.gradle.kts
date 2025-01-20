@@ -6,7 +6,7 @@ plugins {
     id ("kotlin-parcelize")
     kotlin("plugin.serialization") version "2.0.21"
     id ("androidx.navigation.safeargs.kotlin") version "2.8.5"
-
+    id ("kotlin-kapt")
 }
 
 android {
@@ -45,6 +45,11 @@ android {
 
 dependencies {
     val nav_version = "2.8.5"
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
+    implementation("com.squareup.moshi:moshi:1.15.2")
+    implementation ("com.squareup.moshi:moshi-kotlin:1.15.0")
     implementation (libs.logging.interceptor)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation (libs.retrofit)
