@@ -5,104 +5,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.homeworkstbc.models.Chat
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.example.homeworkstbc.client.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class FragmentViewModel : ViewModel() {
+class RegisterViewModel : ViewModel() {
 
-    private val json = """
-        [
-            {
-                "id": 1,
-                "image": "https://www.alia.ge/wp-content/uploads/2022/09/grisha.jpg",
-                "owner": "grisha oniani",
-                "last_message": "თავის ტერიტორიას ბომბავდა",
-                "last_active": "4:20 PM",
-                "unread_messages": 3,
-                "is_typing": false,
-                "laste_message_type": "text"
-            },
-            {
-                "id": 2,
-                "image": null,
-                "owner": "jemal kakauridze",
-                "last_message": "შემოგევლე",
-                "last_active": "3:00 AM",
-                "unread_messages": 0,
-                "is_typing": true,
-                "laste_message_type": "voice"
-            },
-            {
-                "id": 3,
-                "image": "https://i.ytimg.com/vi/KYY0TBqTfQg/hqdefault.jpg",
-                "owner": "guram jenoria",
-                "last_message": "ცოცხალი ვარ მა რა ვარ შე.. როდის იყო კვტარი ტელეფონზე ლაპარაკობდა",
-                "last_active": "1:00 ",
-                "unread_messages": 0,
-                "is_typing": false,
-                "laste_message_type": "file"
-            },
-            {
-                "id": 4,
-                "image": "",
-                "owner": "kako kakoshvili",
-                "last_message": "ადამიანი რო მოსაკლავად გაგიმეტებს თანაც ქალი ის დასანდობი არ არი",
-                "last_active": "1:00 PM",
-                "unread_messages": 0,
-                "is_typing": false,
-                "laste_message_type": "text"
-            }
-        ]
-    """
+    private val _registerState = MutableLiveData<RegisterState>()
+    val registerState: LiveData<RegisterState> get() = _registerState
 
-    private val _chatList = MutableLiveData<List<Chat>>()
-    val chatList: LiveData<List<Chat>> get() = _chatList
-
-    private val _filteredChatList = MutableLiveData<List<Chat>>()
-    val filteredChatList: LiveData<List<Chat>> get() = _filteredChatList
-
-
-    init {
-        parseJson()
-    }
-
-    private fun parseJson() {
+    fun register(email: String, password: String) {
+        _registerState.postValue(RegisterState.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val moshi = Moshi.Builder()
-                    .add(KotlinJsonAdapterFactory())
-                    .build()
+                val request = RegisterRequest(email = email, password = password)
+                val response = RetrofitClient.registerService.register(request)
 
-                val type = Types.newParameterizedType(List::class.java, Chat::class.java)
+                if (response.isSuccessful) {
+                    _registerState.postValue(RegisterState.Success(response.body()))
+                } else {
+                    var errorMessage = response.errorBody()?.string() ?: "Unexpected error, please try again"
 
-                val adapter = moshi.adapter<List<Chat>>(type)
+                    if (response.code() == 400) {
+                        errorMessage = "Please enter the correct credentials"
+                    }
 
-                val parsedChatList = adapter.fromJson(json)
-
-                withContext(Dispatchers.Main) {
-                    _chatList.value = parsedChatList!!
-                    _filteredChatList.value = parsedChatList!!
+                    _registerState.postValue(RegisterState.Error(errorMessage))
                 }
             } catch (e: Exception) {
-                Log.e("FragmentViewModel", "Error parsing JSON", e)
+                _registerState.postValue(RegisterState.Error("Unexpected error, please try again"))
             }
         }
     }
+}
 
-    fun filterChats(query: String) {
-        if (query.isBlank()) {
-            _filteredChatList.value = _chatList.value
-        } else {
-            val queryLowerCase = query.lowercase()
-            val filteredList = _chatList.value?.filter {
-                it.owner.lowercase().contains(queryLowerCase)
-            } ?: emptyList()
-            _filteredChatList.value = filteredList
-        }
-    }
+
+sealed class RegisterState {
+    object Loading : RegisterState()
+    data class Success(val data: RegisterDto?) : RegisterState()
+    data class Error(val message: String) : RegisterState()
 }

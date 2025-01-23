@@ -117,5 +117,7 @@
     <string name="select_date">select date</string>
     <string name="no_date_selected">no date selected</string>
     <string name="welcome">WELCOME</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="log_out">Log Out</string>
 
 </resources>
