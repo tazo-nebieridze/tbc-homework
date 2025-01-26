@@ -1,48 +1,63 @@
 package com.example.homeworkstbc
 
+import ItemAdapter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homeworkstbc.databinding.FragmentHomeBinding
-
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val itemAdapter by lazy { ItemAdapter() }
 
     override fun start() {
-        displayUserEmail()
-        logOutClick()
+        setupRecyclerView()
+        observeViewModel()
+        homeViewModel.fetchUsers()
+        toProfile()
     }
 
-    private fun logOutClick ( ) {
-        binding.logOut.setOnClickListener {
-            logout()
+    private fun setupRecyclerView() {
+        binding.itemRecyclerView.apply {
+            adapter = itemAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
-    private fun displayUserEmail() {
-        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", android.content.Context.MODE_PRIVATE)
-        val email = sharedPreferences.getString("email", "აბთუნა სიხარულიძე")
 
-        binding.logInUser.text = email
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            homeViewModel.usersState.collectLatest { state ->
+                when (state) {
+                    is UsersState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.itemRecyclerView.visibility = View.GONE
+                    }
+                    is UsersState.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.itemRecyclerView.visibility = View.VISIBLE
+                        itemAdapter.submitList(state.users)
+                    }
+                    is UsersState.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.itemRecyclerView.visibility = View.GONE
+                        Toast.makeText(requireContext(),state.message,Toast.LENGTH_LONG).show()
+                        println(state.message)
+                    }
+                }
+            }
+        }
     }
 
-    private fun logout() {
-        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", android.content.Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.remove("jwt_token")
-        editor.remove("jwt_expiration")
-        editor.remove("email")
-        editor.apply()
-
-        findNavController().navigate(R.id.action_home2_to_loginFragment)
+    private fun toProfile ( ) {
+        binding.toProfile.setOnClickListener {
+            findNavController().navigate(HomeDirections.actionHome2ToProfile())
+        }
     }
-
-
-
-
 }

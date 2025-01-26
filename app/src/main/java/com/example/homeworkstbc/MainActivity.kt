@@ -5,11 +5,15 @@ import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.app.DataStoreManager
 import com.example.homeworkstbc.databinding.ActivityMainBinding
 import kotlinx.android.parcel.Parcelize
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import java.util.Date
 
 class MainActivity : AppCompatActivity() {
@@ -36,21 +40,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUp ( ) {
-        val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-        val token = sharedPreferences.getString("jwt_token", null)
-        val expirationTime = sharedPreferences.getLong("jwt_expiration", 0)
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val navGraph = navController.navInflater.inflate(R.navigation.nag_graph)
 
-        if (token != null && expirationTime > System.currentTimeMillis()) {
-            navGraph.setStartDestination(R.id.home2)
-        } else {
-            navGraph.setStartDestination(R.id.loginFragment)
-        }
+        lifecycleScope.launch {
+            val token = DataStoreManager.getToken(this@MainActivity).firstOrNull()
+            val expirationTime = DataStoreManager.getExpirationTime(this@MainActivity).firstOrNull()
 
-        navController.graph = navGraph
+            if (token != null && expirationTime != null && expirationTime > System.currentTimeMillis()) {
+                navGraph.setStartDestination(R.id.home2)
+            } else {
+                navGraph.setStartDestination(R.id.loginFragment)
+            }
+
+            navController.graph = navGraph
+        }
     }
 
 

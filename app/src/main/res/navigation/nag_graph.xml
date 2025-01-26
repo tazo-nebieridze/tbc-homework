@@ -31,10 +31,22 @@
         android:name="com.example.homeworkstbc.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
+
         <action
-            android:id="@+id/action_home2_to_loginFragment"
+            android:id="@+id/action_home2_to_profile"
+            app:destination="@id/profile"
+
+            />
+
+    </fragment>
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.homeworkstbc.Profile"
+        android:label="Profile" >
+        <action
+            android:id="@+id/action_profile_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/home2"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
 
     </fragment>

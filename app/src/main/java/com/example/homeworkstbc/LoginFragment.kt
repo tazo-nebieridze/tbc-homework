@@ -5,8 +5,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.app.DataStoreManager
 import com.example.homeworkstbc.databinding.FragmentLoginBinding
+import kotlinx.coroutines.launch
 
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
@@ -46,47 +51,53 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun saveTokenToSharedPreferences(token: String) {
-        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", android.content.Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
         val expirationTime = System.currentTimeMillis() + 5 * 60 * 1000 // 5 minutes
-        editor.putString("jwt_token", token)
-        editor.putLong("jwt_expiration", expirationTime)
-        editor.putString("email",binding.emailInputLogin.text.toString())
+        val email = binding.emailInputLogin.text.toString()
 
-        editor.apply()
+        lifecycleScope.launch {
+            DataStoreManager.saveToken(requireContext(), token, email, expirationTime)
+        }
     }
 
     private fun observeLoginState() {
-        loginViewModel.loginState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is LoginState.Loading -> {
-                    binding.loginButton.isEnabled = false
-                    binding.loginButton.text = ""
-                    binding.loginButtonLoader.visibility = View.VISIBLE
-                }
-                is LoginState.Success -> {
-                    binding.loginButton.isEnabled = true
-                    binding.loginButtonLoader.visibility = View.GONE
-                    binding.loginButton.setText(R.string.log_in)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.loginState.collect { state ->
+                    when (state) {
+                        is LoginState.Idle -> {
+                            binding.loginButton.isEnabled = true
+                            binding.loginButtonLoader.visibility = View.GONE
+                            binding.loginButton.setText(R.string.log_in)
+                        }
+                        is LoginState.Loading -> {
+                            binding.loginButton.isEnabled = false
+                            binding.loginButton.text = ""
+                            binding.loginButtonLoader.visibility = View.VISIBLE
+                        }
+                        is LoginState.Success -> {
+                            binding.loginButton.isEnabled = true
+                            binding.loginButtonLoader.visibility = View.GONE
+                            binding.loginButton.setText(R.string.log_in)
 
-                    val token = state.data?.token
+                            val token = state.data?.token
 
-                    if (token != null && binding.rememberMe.isChecked) {
-                        saveTokenToSharedPreferences(token)
+                            if (token != null && binding.rememberMe.isChecked) {
+                                saveTokenToSharedPreferences(token)
+                            }
+                            navigateToHome()
+                        }
+                        is LoginState.Error -> {
+                            binding.loginButton.isEnabled = true
+                            binding.loginButtonLoader.visibility = View.GONE
+                            binding.loginButton.setText(R.string.log_in)
+
+                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
+                        }
                     }
-                    navigateToHome()
-                }
-                is LoginState.Error -> {
-                    binding.loginButton.isEnabled = true
-                    binding.loginButtonLoader.visibility = View.GONE
-                    binding.loginButton.setText(R.string.log_in)
-
-                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
-
     private fun togglePasswordVisibility() {
         binding.passwordToggleLogin.setOnClickListener {
             val isPasswordVisible = binding.passwordInputLogin.inputType and

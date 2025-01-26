@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.homeworkstbc.databinding.FragmentRegisterBinding
+import kotlinx.coroutines.launch
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
@@ -36,8 +40,15 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     }
 
     private fun observeRegisterState() {
-        registerViewModel.registerState.observe(viewLifecycleOwner) { state ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                registerViewModel.registerState.collect { state ->
             when (state) {
+                is RegisterState.Idle -> {
+                    binding.registerButton.isEnabled = true
+                    binding.registerButtonLoader.visibility = View.GONE
+                    binding.registerButton.setText(R.string.register)
+                }
                 is RegisterState.Loading -> {
                     binding.registerButton.isEnabled = false
                     binding.registerButton.text = ""
@@ -65,6 +76,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                     binding.registerButton.setText(R.string.register)
 
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
+                }
+            }
                 }
             }
         }

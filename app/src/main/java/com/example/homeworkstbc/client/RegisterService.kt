@@ -1,5 +1,6 @@
 package com.example.homeworkstbc.client
 
+import UsersDto
 import com.example.homeworkstbc.LoginDto
 import com.example.homeworkstbc.LoginRequest
 import com.example.homeworkstbc.RegisterDto
@@ -16,4 +17,7 @@ interface RegisterService {
 
     @POST("login")
     suspend fun login(@Body request: LoginRequest): Response<LoginDto>
+
+    @GET("users?page=1")
+    suspend fun fetchUsers(): Response<UsersDto>
 }
