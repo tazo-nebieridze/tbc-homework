@@ -17,6 +17,8 @@ class HomeViewModel : ViewModel() {
     val usersState: StateFlow<UsersState> = _usersState
 
     fun fetchUsers() {
+        if (_usersState.value is UsersState.Success) return
+
         viewModelScope.launch(Dispatchers.IO) {
             _usersState.value = UsersState.Loading
 
