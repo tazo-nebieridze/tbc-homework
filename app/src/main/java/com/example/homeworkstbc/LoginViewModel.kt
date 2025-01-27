@@ -7,8 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.homeworkstbc.client.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
 
@@ -16,9 +20,13 @@ class LoginViewModel : ViewModel() {
 
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> get() = _loginState
+
+
+
     fun login(email: String, password: String) {
         _loginState.value = LoginState.Loading
         viewModelScope.launch(Dispatchers.IO) {
+
             try {
                 val request = LoginRequest(email = email, password = password)
                 val response = RetrofitClient.registerService.login(request)

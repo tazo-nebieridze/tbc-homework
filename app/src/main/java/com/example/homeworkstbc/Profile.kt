@@ -25,10 +25,12 @@ class Profile : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inf
         }
     }
     private fun displayUserEmail() {
-        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", android.content.Context.MODE_PRIVATE)
-        val email = sharedPreferences.getString("email", "აბთუნა სიხარულიძე")
-
-        binding.logInUser.text = email
+        lifecycleScope.launch {
+            val emailFlow = DataStoreManager.getEmail(requireContext())
+            emailFlow.collect { email ->
+                binding.logInUser.text = email ?: "აბთუნა სიხარულიძე"
+            }
+        }
     }
 
     private fun logout() {
