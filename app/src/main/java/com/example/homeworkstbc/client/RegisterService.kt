@@ -1,10 +1,6 @@
 package com.example.homeworkstbc.client
 
 import UsersDto
-import com.example.homeworkstbc.LoginDto
-import com.example.homeworkstbc.LoginRequest
-import com.example.homeworkstbc.RegisterDto
-import com.example.homeworkstbc.RegisterRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,6 +14,8 @@ interface RegisterService {
     @POST("login")
     suspend fun login(@Body request: LoginRequest): Response<LoginDto>
 
-    @GET("users?page=1")
-    suspend fun fetchUsers(): Response<UsersDto>
+    @GET("users")
+    suspend fun fetchUsers(@retrofit2.http.Query("page") page: Int): Response<UsersDto>
+
 }
+

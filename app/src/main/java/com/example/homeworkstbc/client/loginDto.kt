@@ -1,4 +1,4 @@
-package com.example.homeworkstbc
+package com.example.homeworkstbc.client
 
 import kotlinx.serialization.Serializable
 

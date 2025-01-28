@@ -45,6 +45,7 @@ android {
 
 dependencies {
     val nav_version = "2.8.5"
+    implementation("androidx.paging:paging-runtime:3.3.5")
     implementation("androidx.datastore:datastore-preferences:1.1.2")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")

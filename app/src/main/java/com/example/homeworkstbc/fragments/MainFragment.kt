@@ -1,10 +1,6 @@
-package com.example.homeworkstbc
+package com.example.homeworkstbc.fragments
 
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.homeworkstbc.databinding.FragmentMainBinding
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {

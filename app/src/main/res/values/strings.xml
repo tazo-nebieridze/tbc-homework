@@ -120,5 +120,6 @@
     <string name="repeat_password">Repeat Password</string>
     <string name="log_out">Log Out</string>
     <string name="go_back">go back</string>
+    <string name="back">Back</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.example.homeworkstbc
+package com.example.homeworkstbc.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.homeworkstbc.R
+import com.example.homeworkstbc.viewModels.RegisterState
+import com.example.homeworkstbc.viewModels.RegisterViewModel
 import com.example.homeworkstbc.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.launch
 

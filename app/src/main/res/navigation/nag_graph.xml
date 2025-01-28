@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.homeworkstbc.RegisterFragment"
+        android:name="com.example.homeworkstbc.fragments.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
 
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.homeworkstbc.LoginFragment"
+        android:name="com.example.homeworkstbc.fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/home2"
-        android:name="com.example.homeworkstbc.Home"
+        android:name="com.example.homeworkstbc.fragments.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
 
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.homeworkstbc.Profile"
+        android:name="com.example.homeworkstbc.fragments.Profile"
         android:label="Profile" >
         <action
             android:id="@+id/action_profile_to_loginFragment"

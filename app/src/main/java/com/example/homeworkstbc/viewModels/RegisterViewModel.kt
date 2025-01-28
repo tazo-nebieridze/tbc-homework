@@ -1,10 +1,9 @@
-package com.example.homeworkstbc
+package com.example.homeworkstbc.viewModels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.homeworkstbc.client.RegisterDto
+import com.example.homeworkstbc.client.RegisterRequest
 import com.example.homeworkstbc.client.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

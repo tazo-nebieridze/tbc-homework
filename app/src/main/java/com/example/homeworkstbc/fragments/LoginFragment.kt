@@ -1,17 +1,19 @@
-package com.example.homeworkstbc
+package com.example.homeworkstbc.fragments
 
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.app.DataStoreManager
+import com.example.homeworkstbc.viewModels.LoginState
+import com.example.homeworkstbc.viewModels.LoginViewModel
+import com.example.homeworkstbc.R
 import com.example.homeworkstbc.databinding.FragmentLoginBinding
+import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.launch
 
 
@@ -27,6 +29,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         togglePasswordVisibility()
         navigateToRegister()
         listenSuccessRegister()
+//        listenToState1()
+    }
+
+    private fun listenToState1 ( ) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.loginState1.consume {
+                    Log.d("loginState",this.toString())
+                }
+            }
+        }
     }
 
 
@@ -52,13 +65,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun saveTokenToSharedPreferences(token: String) {
-        val expirationTime = System.currentTimeMillis() + 5 * 60 * 1000 // 5 minutes
+        val expirationTime = System.currentTimeMillis() + 50 * 60 * 1000
         val email = binding.emailInputLogin.text.toString()
 
         lifecycleScope.launch {
             DataStoreManager.saveToken(requireContext(), token, email, expirationTime)
         }
     }
+
 
     private fun observeLoginState() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -88,6 +102,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                             navigateToHome()
                         }
                         is LoginState.Error -> {
+                            Log.d("loginState","error")
                             binding.loginButton.isEnabled = true
                             binding.loginButtonLoader.visibility = View.GONE
                             binding.loginButton.setText(R.string.log_in)

@@ -1,4 +1,4 @@
-package com.example.homeworkstbc
+package com.example.homeworkstbc.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.example.homeworkstbc.databinding.FragmentMainBinding
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val inflater : (LayoutInflater, ViewGroup?, Boolean ) -> VB
