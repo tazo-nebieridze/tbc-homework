@@ -5,9 +5,11 @@ plugins {
     id("com.google.gms.google-services")
     id ("kotlin-parcelize")
     kotlin("plugin.serialization") version "2.0.21"
-    id ("androidx.navigation.safeargs.kotlin") version "2.8.5"
+    id ("androidx.navigation.safeargs.kotlin") version "2.8.6"
     id ("kotlin-kapt")
     id ("com.google.protobuf") version "0.9.4"
+    id ("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -46,6 +48,14 @@ android {
 
 dependencies {
     val nav_version = "2.8.5"
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
     implementation  (libs.androidx.datastore)
     implementation  (libs.protobuf.javalite)
     implementation(libs.androidx.paging.runtime)

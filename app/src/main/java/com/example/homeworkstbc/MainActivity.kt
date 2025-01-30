@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.app.DataStoreManager
+//import com.example.app.DataStoreManager
 import com.example.homeworkstbc.databinding.ActivityMainBinding
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.collect
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import java.util.Date
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,28 +40,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-//        setUp()
 
     }
 
-    private fun setUp ( ) {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        val navGraph = navController.navInflater.inflate(R.navigation.nag_graph)
 
-        lifecycleScope.launch {
-            val token = DataStoreManager.getToken().firstOrNull()
-            val expirationTime = DataStoreManager.getExpirationTime().firstOrNull()
-
-            if (token != null && expirationTime != null && expirationTime > System.currentTimeMillis()) {
-                navGraph.setStartDestination(R.id.home2)
-            } else {
-                navGraph.setStartDestination(R.id.loginFragment)
-            }
-
-            navController.graph = navGraph
-        }
-    }
 
 
 

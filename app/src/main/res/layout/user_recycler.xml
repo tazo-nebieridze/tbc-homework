@@ -23,15 +23,13 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Name"
             android:textSize="16sp"
             android:textColor="@android:color/black" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/user_email"
+            android:id="@+id/user_active_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray" />
     </androidx.appcompat.widget.LinearLayoutCompat>

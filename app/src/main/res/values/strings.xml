@@ -123,5 +123,11 @@
     <string name="back">Back</string>
     <string name="read">Read</string>
     <string name="user_details_will_appear_here">User Details will appear here...</string>
-
+    <string name="offline">You are Offline</string>
+    <string name="onlineUser">You are Online</string>
+    <string name="user_inactive">User is Inactive</string>
+    <string name="user_online">Online</string>
+    <string name="user_active_minutes_ago">User was active minutes ago</string>
+    <string name="user_active_hours_ago">User was active hours ago</string>
+    <string name="user_active_long_time_ago">User was active long time ago</string>
 </resources>

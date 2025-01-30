@@ -5,55 +5,24 @@
     app:startDestination="@id/mainFragment">
 
 
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.homeworkstbc.fragments.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
 
-    </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.homeworkstbc.fragments.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_home2"
-            app:destination="@id/home2"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/home2"
-        android:name="com.example.homeworkstbc.fragments.Home"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
 
-        <action
-            android:id="@+id/action_home2_to_profile"
-            app:destination="@id/profile"
 
-            />
-
-    </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="com.example.homeworkstbc.fragments.Profile"
         android:label="Profile" >
-        <action
-            android:id="@+id/action_profile_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"/>
+
 
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.homeworkstbc.fragments.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_profile"
+            app:destination="@id/profile" />
+    </fragment>
 
 </navigation>

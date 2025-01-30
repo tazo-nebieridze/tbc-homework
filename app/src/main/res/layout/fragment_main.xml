@@ -1,43 +1,22 @@
-<androidx.appcompat.widget.LinearLayoutCompat
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/firstNameInput"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itemRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/firstname" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/lastNameInput"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/lastname" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/emailInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/saveButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save" />
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/readButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/read" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/userDetailsText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/user_details_will_appear_here"
-        android:paddingTop="16dp"
-        android:textSize="16sp"/>
-</androidx.appcompat.widget.LinearLayoutCompat>
+</FrameLayout>

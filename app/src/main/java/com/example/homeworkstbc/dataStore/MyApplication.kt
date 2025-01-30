@@ -1,14 +1,15 @@
-package com.example.homeworkstbc.dataStore
+package com.example.homeworkstbc
 
 import android.app.Application
 import android.content.Context
 
-class App: Application() {
+class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
     }
-    companion object{
+
+    companion object {
         var context: Context? = null
     }
 }
