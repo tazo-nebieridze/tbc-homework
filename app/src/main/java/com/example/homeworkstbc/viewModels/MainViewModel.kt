@@ -1,25 +1,19 @@
 package com.example.homeworkstbc.viewModels
-
-import User
-import UserPagingSource
-import UserPrefsRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import com.example.homeworkstbc.dataStore.UserPrefsRepository
 import com.example.yourapp.datastore.UserPrefs
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: UserPrefsRepository
+) : ViewModel() {
 
-    private val repository = UserPrefsRepository()
-
-    val userPrefsFlow: Flow<UserPrefs> = repository.userPrefsFlow.map { it }
+    val userPrefsFlow: Flow<UserPrefs> = repository.userPrefsFlow
 
     fun saveUser(firstName: String, lastName: String, email: String) {
         viewModelScope.launch {
@@ -27,5 +21,3 @@ class MainViewModel : ViewModel() {
         }
     }
 }
-
-

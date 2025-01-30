@@ -3,7 +3,7 @@ package com.example.homeworkstbc.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.example.app.DataStoreManager
+//import com.example.app.DataStoreManager
 import com.example.homeworkstbc.client.LoginDto
 import com.example.homeworkstbc.client.LoginRequest
 import com.example.homeworkstbc.client.RetrofitClient
@@ -33,11 +33,11 @@ class LoginViewModel : ViewModel() {
         startChannel()
     }
 
-    fun saveSession (token:String,email:String,time:Long ) {
-        viewModelScope.launch {
-            DataStoreManager.saveToken(token,email,time)
-        }
-    }
+//    fun saveSession (token:String,email:String,time:Long ) {
+//        viewModelScope.launch {
+//            DataStoreManager.saveToken(token,email,time)
+//        }
+//    }
 
 
     fun login(email: String, password: String) {

@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.example.app.DataStoreManager
+//import com.example.app.DataStoreManager
 import com.example.homeworkstbc.viewModels.LoginState
 import com.example.homeworkstbc.viewModels.LoginViewModel
 import com.example.homeworkstbc.R
@@ -64,12 +64,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     }
 
-    private fun saveTokenToSharedPreferences(token: String) {
-        val expirationTime = System.currentTimeMillis() + 50 * 60 * 1000
-        val email = binding.emailInputLogin.text.toString()
-
-        loginViewModel.saveSession(token,email,expirationTime)
-    }
+//    private fun saveTokenToSharedPreferences(token: String) {
+//        val expirationTime = System.currentTimeMillis() + 50 * 60 * 1000
+//        val email = binding.emailInputLogin.text.toString()
+//
+//        loginViewModel.saveSession(token,email,expirationTime)
+//    }
 
 
     private fun observeLoginState() {
@@ -95,7 +95,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                             val token = state.data?.token
 
                             if (token != null && binding.rememberMe.isChecked) {
-                                saveTokenToSharedPreferences(token)
+//                                saveTokenToSharedPreferences(token)
                             }
                             navigateToHome()
                         }
