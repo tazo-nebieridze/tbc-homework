@@ -121,5 +121,7 @@
     <string name="log_out">Log Out</string>
     <string name="go_back">go back</string>
     <string name="back">Back</string>
+    <string name="read">Read</string>
+    <string name="user_details_will_appear_here">User Details will appear here...</string>
 
 </resources>

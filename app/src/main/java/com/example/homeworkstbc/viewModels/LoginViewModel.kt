@@ -1,15 +1,19 @@
 package com.example.homeworkstbc.viewModels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.example.app.DataStoreManager
 import com.example.homeworkstbc.client.LoginDto
 import com.example.homeworkstbc.client.LoginRequest
 import com.example.homeworkstbc.client.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 class LoginViewModel : ViewModel() {
 
@@ -28,6 +32,13 @@ class LoginViewModel : ViewModel() {
     init {
         startChannel()
     }
+
+    fun saveSession (token:String,email:String,time:Long ) {
+        viewModelScope.launch {
+            DataStoreManager.saveToken(token,email,time)
+        }
+    }
+
 
     fun login(email: String, password: String) {
         _loginState.value = LoginState.Loading

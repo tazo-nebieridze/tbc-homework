@@ -1,61 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MainFragment"
     android:orientation="vertical"
-    >
+    android:padding="16dp">
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/firstNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/firstname" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/lastNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/lastname" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/emailInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/readButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/read" />
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userDetailsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/welcome"
-        android:gravity="center"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.1"
-        android:layout_marginTop="50dp"
-        />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/welcome"
-        android:layout_marginVertical="100dp"/>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/toRegisterPage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:text="@string/register"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-medium"
-            android:background="@drawable/register_button"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/toLoginPage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:text="@string/log_in"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-medium"
-            android:background="@drawable/login_button"/>
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
+        android:text="@string/user_details_will_appear_here"
+        android:paddingTop="16dp"
+        android:textSize="16sp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

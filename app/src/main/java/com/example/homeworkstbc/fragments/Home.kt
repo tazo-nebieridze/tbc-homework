@@ -2,6 +2,7 @@ package com.example.homeworkstbc.fragments
 
 import ItemAdapter
 import User
+import android.util.Log
 
 import android.view.View
 import android.widget.Toast
@@ -50,6 +51,7 @@ class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private fun observePagingData() {
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.usersFlow.collectLatest { pagingData: PagingData<User> ->
+                Log.d("homeFragment","observe")
                 itemAdapter.submitData(pagingData)
             }
         }

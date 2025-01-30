@@ -12,7 +12,10 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.app.DataStoreManager
 import com.example.homeworkstbc.databinding.ActivityMainBinding
 import kotlinx.android.parcel.Parcelize
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -35,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        setUp()
+//        setUp()
 
     }
 
@@ -45,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         val navGraph = navController.navInflater.inflate(R.navigation.nag_graph)
 
         lifecycleScope.launch {
-            val token = DataStoreManager.getToken(this@MainActivity).firstOrNull()
-            val expirationTime = DataStoreManager.getExpirationTime(this@MainActivity).firstOrNull()
+            val token = DataStoreManager.getToken().firstOrNull()
+            val expirationTime = DataStoreManager.getExpirationTime().firstOrNull()
 
             if (token != null && expirationTime != null && expirationTime > System.currentTimeMillis()) {
                 navGraph.setStartDestination(R.id.home2)

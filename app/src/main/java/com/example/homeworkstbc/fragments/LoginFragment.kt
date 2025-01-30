@@ -68,9 +68,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         val expirationTime = System.currentTimeMillis() + 50 * 60 * 1000
         val email = binding.emailInputLogin.text.toString()
 
-        lifecycleScope.launch {
-            DataStoreManager.saveToken(requireContext(), token, email, expirationTime)
-        }
+        loginViewModel.saveSession(token,email,expirationTime)
     }
 
 

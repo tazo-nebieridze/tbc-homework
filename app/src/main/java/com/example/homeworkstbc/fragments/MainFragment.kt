@@ -1,12 +1,47 @@
 package com.example.homeworkstbc.fragments
 
 
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.homeworkstbc.databinding.FragmentMainBinding
+import com.example.homeworkstbc.viewModels.LoginViewModel
+import com.example.homeworkstbc.viewModels.MainViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class MainFragment : BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
+    private val mainViewModel: MainViewModel by viewModels()
+
+
 
     override fun start() {
+
+        readUser()
+        saveUser()
+    }
+
+    private fun saveUser ( ) {
+        binding.saveButton.setOnClickListener {
+            val firstName = binding.firstNameInput.text.toString()
+            val lastName = binding.lastNameInput.text.toString()
+            val email = binding.emailInput.text.toString()
+
+            mainViewModel.saveUser(firstName, lastName, email)
+        }
+    }
+
+    private fun readUser ( ) {
+        binding.readButton.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    val prefs = mainViewModel.userPrefsFlow.first()
+                    binding.userDetailsText.text = "First Name: ${prefs.firstName}\nLast Name: ${prefs.lastName}\nEmail: ${prefs.email}"
+                }
+            }
+        }
 
     }
 

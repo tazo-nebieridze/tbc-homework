@@ -21,7 +21,7 @@ class Profile : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inf
     }
     private fun displayUserEmail() {
         lifecycleScope.launch {
-            val emailFlow = DataStoreManager.getEmail(requireContext())
+            val emailFlow = DataStoreManager.getEmail()
             emailFlow.collect { email ->
                 binding.logInUser.text = email ?: "აბთუნა სიხარულიძე"
             }
@@ -30,7 +30,7 @@ class Profile : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inf
 
     private fun logout() {
         lifecycleScope.launch {
-            DataStoreManager.clearData(requireContext())
+            DataStoreManager.clearData()
             findNavController().navigate(ProfileDirections.actionProfileToLoginFragment()) }
     }
 

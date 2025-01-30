@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.serialization") version "2.0.21"
     id ("androidx.navigation.safeargs.kotlin") version "2.8.5"
     id ("kotlin-kapt")
+    id ("com.google.protobuf") version "0.9.4"
 }
 
 android {
@@ -45,7 +46,9 @@ android {
 
 dependencies {
     val nav_version = "2.8.5"
-    implementation("androidx.paging:paging-runtime:3.3.5")
+    implementation  (libs.androidx.datastore)
+    implementation  (libs.protobuf.javalite)
+    implementation(libs.androidx.paging.runtime)
     implementation("androidx.datastore:datastore-preferences:1.1.2")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
@@ -72,4 +75,20 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+}
+
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.21.7"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

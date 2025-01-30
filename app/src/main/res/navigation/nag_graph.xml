@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/mainFragment">
 
 
     <fragment
@@ -50,5 +50,10 @@
             app:popUpToInclusive="true"/>
 
     </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.homeworkstbc.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
 
 </navigation>
