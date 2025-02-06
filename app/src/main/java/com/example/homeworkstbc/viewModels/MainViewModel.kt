@@ -1,86 +1,47 @@
 package com.example.homeworkstbc.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.homeworkstbc.client.RetrofitClient
-import com.example.homeworkstbc.dto.UserDto
-import com.example.homeworkstbc.roomDatabase.AppDatabase
-import com.example.homeworkstbc.roomDatabase.User
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import java.io.IOException
-import retrofit2.HttpException
 
 class MainViewModel : ViewModel() {
 
-    private val _mainUsersState = MutableStateFlow<MainUsersState>(MainUsersState.Idle)
-    val mainUsersState: StateFlow<MainUsersState> get() = _mainUsersState
+    val lockScreenComponents: List<String> = listOf(
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "f", "0", "d"
+    )
 
-    fun fetchUsers() {
-        if (_mainUsersState.value is MainUsersState.Success) return
+    private val _currentInput = MutableStateFlow("")
+    val currentInput: StateFlow<String> = _currentInput
 
-        viewModelScope.launch(Dispatchers.IO) {
-            _mainUsersState.value = MainUsersState.Loading
-            try {
-                val response = RetrofitClient.registerService.getUsers()
-                if (response.isSuccessful) {
-                    response.body()?.users?.let { userList ->
-                        val db = AppDatabase.getInstance()
-                        val roomUsers = userList.map { dto ->
-                            User(
-                                uid = dto.id,
-                                avatar = dto.avatar,
-                                firstName = dto.firstName,
-                                lastName = dto.lastName,
-                                about = dto.about,
-                                activationStatus = dto.activationStatus
-                            )
-                        }
-                        db.userDao().insertAll(*roomUsers.toTypedArray())
-
-                        _mainUsersState.value = MainUsersState.Success(userList, isOffline = false)
-                    } ?: run {
-                        _mainUsersState.value = MainUsersState.Error("Response body is null")
-                    }
-                } else {
-                    _mainUsersState.value = MainUsersState.Error("Failed to fetch users: ${response.message()}")
+    fun onKeyPressed(key: String) {
+        when (key) {
+            "d" -> {
+                if (_currentInput.value.isNotEmpty()) {
+                    _currentInput.value = _currentInput.value.dropLast(1)
                 }
-            } catch (e: IOException) {
-                Log.e("MainViewModel", "Network error: ${e.message}")
-                val db = AppDatabase.getInstance()
-                val localUsers = db.userDao().getAll().first()
-                if (localUsers.isNotEmpty()) {
-                    val userDtos = localUsers.map { roomUser ->
-                        UserDto(
-                            id = roomUser.uid,
-                            avatar = roomUser.avatar,
-                            firstName = roomUser.firstName ?: "",
-                            lastName = roomUser.lastName ?: "",
-                            about = roomUser.about,
-                            activationStatus = roomUser.activationStatus ?: 0.0
-                        )
-                    }
-                    _mainUsersState.value = MainUsersState.Success(userDtos, isOffline = true)
-                } else {
-                    _mainUsersState.value = MainUsersState.Error("Offline and no cached data available")
+            }
+            "f" -> {
+
+            }
+            else -> {
+                if (_currentInput.value.length < 4) {
+                    _currentInput.value += key
                 }
-            } catch (e: Exception) {
-                _mainUsersState.value = MainUsersState.Error("An unexpected error occurred: ${e.message}")
             }
         }
     }
+
+
+    fun verifyPasscode(correctPasscode: String): Boolean {
+        return _currentInput.value == correctPasscode
+    }
+
+    fun clearInput() {
+        _currentInput.value = ""
+    }
 }
 
-sealed class MainUsersState {
-    object Idle : MainUsersState()
-    object Loading : MainUsersState()
-    data class Success(val users: List<UserDto>, val isOffline: Boolean = false) : MainUsersState()
-    data class Error(val message: String) : MainUsersState()
-}
+
 
 
 

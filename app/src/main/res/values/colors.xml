@@ -13,5 +13,6 @@
     <color name="pending">#CF6212</color>
     <color name="delivered">#009254</color>
     <color name="cancelled">#C50000</color>
+    <color name="gray">#8E8E93</color>
 
 </resources>

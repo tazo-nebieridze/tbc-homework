@@ -130,4 +130,7 @@
     <string name="user_active_minutes_ago">User was active minutes ago</string>
     <string name="user_active_hours_ago">User was active hours ago</string>
     <string name="user_active_long_time_ago">User was active long time ago</string>
+    <string name="security_screen">Security screen</string>
+    <string name="enter_your_passcode">Enter your passcode</string>
+    <string name="forgot_password">Forgot password?</string>
 </resources>
