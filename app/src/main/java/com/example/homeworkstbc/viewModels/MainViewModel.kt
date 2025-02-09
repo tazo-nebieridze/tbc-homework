@@ -6,39 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 class MainViewModel : ViewModel() {
 
-    val lockScreenComponents: List<String> = listOf(
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "f", "0", "d"
-    )
-
-    private val _currentInput = MutableStateFlow("")
-    val currentInput: StateFlow<String> = _currentInput
-
-    fun onKeyPressed(key: String) {
-        when (key) {
-            "d" -> {
-                if (_currentInput.value.isNotEmpty()) {
-                    _currentInput.value = _currentInput.value.dropLast(1)
-                }
-            }
-            "f" -> {
-
-            }
-            else -> {
-                if (_currentInput.value.length < 4) {
-                    _currentInput.value += key
-                }
-            }
-        }
-    }
-
-
-    fun verifyPasscode(correctPasscode: String): Boolean {
-        return _currentInput.value == correctPasscode
-    }
-
-    fun clearInput() {
-        _currentInput.value = ""
-    }
 }
 
 
