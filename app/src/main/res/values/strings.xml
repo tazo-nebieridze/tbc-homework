@@ -133,4 +133,5 @@
     <string name="security_screen">Security screen</string>
     <string name="enter_your_passcode">Enter your passcode</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="statistics">Statistics</string>
 </resources>

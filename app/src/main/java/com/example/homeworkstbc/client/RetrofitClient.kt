@@ -10,7 +10,7 @@ object RetrofitClient {
     private val contentType = "application/json".toMediaType()
 
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://reqres.in/api/")
+        .baseUrl("https://run.mocky.io/v3/")
         .addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory(contentType))
         .build()
 

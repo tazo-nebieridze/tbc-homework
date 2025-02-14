@@ -1,16 +1,31 @@
 package com.example.homeworkstbc.viewModels
 
+import Resource
+import ItemsDto
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.homeworkstbc.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: UserRepository
+) : ViewModel() {
 
+    private val _itemsFlow = MutableStateFlow<Resource<List<ItemsDto>>>(Resource.Idle)
+    val itemsFlow: StateFlow<Resource<List<ItemsDto>>> = _itemsFlow
+
+    fun fetchItems() {
+        viewModelScope.launch {
+            _itemsFlow.value = Resource.Loading
+            _itemsFlow.value = repository.fetchItems()
+        }
+    }
 }
-
-
-
-
 
 
 

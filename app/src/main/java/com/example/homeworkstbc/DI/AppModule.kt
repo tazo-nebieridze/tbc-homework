@@ -25,11 +25,10 @@ object AppModule {
     fun provideRetrofit(): Retrofit {
         val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
-            .baseUrl("https://reqres.in/api/")
+            .baseUrl("https://run.mocky.io/v3/")
             .addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory(contentType))
             .build()
     }
-
     @Provides
     @Singleton
     fun provideUserService(retrofit: Retrofit): UserService {
