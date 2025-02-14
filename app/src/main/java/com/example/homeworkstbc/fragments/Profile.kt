@@ -1,7 +1,9 @@
 package com.example.homeworkstbc.fragments
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.app.DataStoreManager
 import com.example.homeworkstbc.databinding.FragmentProfileBinding
@@ -24,9 +26,11 @@ class Profile : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inf
 
 
     private fun displayUserEmail() {
-        lifecycleScope.launch {
-            profileViewModel.emailFlow.collect { email ->
-                binding.logInUser.text = email ?: "აბთუნა სიხარულიძე"
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                profileViewModel.emailFlow.collect { email ->
+                    binding.logInUser.text = email ?: "აბთუნა სიხარულიძე"
+                }
             }
         }
     }
