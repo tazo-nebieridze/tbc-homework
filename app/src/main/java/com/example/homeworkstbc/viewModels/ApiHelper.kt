@@ -1,6 +1,11 @@
-import retrofit2.Response
+// ApiHelper.kt
+package com.example.homeworkstbc
 
-object ApiHelper {
+import Resource
+import retrofit2.Response
+import javax.inject.Inject
+
+class ApiHelper @Inject constructor() {
     suspend fun <T> handleHttpRequest(httpCall: suspend () -> Response<T>): Resource<T> {
         return try {
             val response = httpCall.invoke()

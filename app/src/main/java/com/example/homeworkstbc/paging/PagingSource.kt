@@ -9,7 +9,7 @@ class UserPagingSource : PagingSource<Int, User>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, User> {
         val currentPage = params.key ?: 1
         return try {
-            val response = RetrofitClient.registerService.fetchUsers(currentPage)
+            val response = RetrofitClient.userService.fetchUsers(currentPage)
             if (response.isSuccessful) {
                 val usersDto = response.body()
                 Log.d("homeFragment",currentPage.toString())

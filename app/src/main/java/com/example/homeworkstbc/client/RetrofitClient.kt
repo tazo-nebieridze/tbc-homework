@@ -14,8 +14,8 @@ object RetrofitClient {
         .addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory(contentType))
         .build()
 
-    val registerService: RegisterService by lazy {
-        retrofit.create(RegisterService::class.java)
+    val userService: UserService by lazy {
+        retrofit.create(UserService::class.java)
     }
 
 }

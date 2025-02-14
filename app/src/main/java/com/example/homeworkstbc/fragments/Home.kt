@@ -1,29 +1,33 @@
+// Home.kt (Fragment)
 package com.example.homeworkstbc.fragments
 
 import ItemAdapter
-import User
-
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.homeworkstbc.viewModels.HomeViewModel
+import com.example.homeworkstbc.NetworkUtil
 import com.example.homeworkstbc.databinding.FragmentHomeBinding
+import com.example.homeworkstbc.viewModels.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
-
+    @Inject
+    lateinit var networkUtil: NetworkUtil
     private val homeViewModel: HomeViewModel by viewModels()
     private val itemAdapter by lazy { ItemAdapter() }
 
     override fun start() {
         setupRecyclerView()
         observePagingData()
+        checkConnectivityAndAlert()
         toProfile()
     }
 
@@ -37,11 +41,9 @@ class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
                 binding.progressBar.visibility =
                     if (loadStates.refresh is LoadState.Loading) View.VISIBLE else View.GONE
 
-//                retry.isVisible = loadState.refresh !is LoadState.Loading
                 val errorState = loadStates.refresh as? LoadState.Error
                 errorState?.let {
-                    val errorMessage = "An unexpected error occurred"
-                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "An unexpected error occurred", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -49,14 +51,22 @@ class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private fun observePagingData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.usersFlow.collectLatest { pagingData: PagingData<User> ->
+            homeViewModel.usersFlow.collectLatest { pagingData ->
                 itemAdapter.submitData(pagingData)
             }
         }
     }
 
+    private fun checkConnectivityAndAlert() {
+        val isConnected = networkUtil.isNetworkAvailable()
+        Toast.makeText(
+            requireContext(),
+            if (isConnected) "You are Online" else "You are Offline",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 
-    private fun toProfile ( ) {
+    private fun toProfile() {
         binding.toProfile.setOnClickListener {
             findNavController().navigate(HomeDirections.actionHome2ToProfile())
         }

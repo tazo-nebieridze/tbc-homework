@@ -5,24 +5,25 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.homeworkstbc.MyApplication
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [UserDb::class, UserRemoteKey::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+    abstract fun userRemoteKeyDao(): UserRemoteKeyDao
 
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    MyApplication.context!!.applicationContext,
-                    AppDatabase::class.java,
-                    "app_database"
-                ).build()
-                INSTANCE = instance
-                instance
-            }
-        }
+//        fun getInstance(): AppDatabase {
+//            return INSTANCE ?: synchronized(this) {
+//                val instance = Room.databaseBuilder(
+//                    MyApplication.context!!.applicationContext,
+//                    AppDatabase::class.java,
+//                    "app_database"
+//                ).build()
+//                INSTANCE = instance
+//                instance
+//            }
+//        }
     }
 }

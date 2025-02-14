@@ -1,17 +1,22 @@
+// RegisterViewModel.kt
 package com.example.homeworkstbc.viewModels
 
 import Resource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.homeworkstbc.client.RegisterDto
-import com.example.homeworkstbc.client.RegisterRequest
-import com.example.homeworkstbc.client.RetrofitClient
+import com.example.homeworkstbc.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel : ViewModel() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val _registerState = MutableStateFlow<Resource<RegisterDto>>(Resource.Idle)
     val registerState: StateFlow<Resource<RegisterDto>> get() = _registerState
@@ -19,9 +24,7 @@ class RegisterViewModel : ViewModel() {
     fun register(email: String, password: String) {
         _registerState.value = Resource.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            val result = ApiHelper.handleHttpRequest {
-                RetrofitClient.registerService.register(RegisterRequest(email = email, password = password))
-            }
+            val result = userRepository.register(email, password)
             _registerState.value = result
         }
     }

@@ -11,8 +11,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.homeworkstbc.R
 import com.example.homeworkstbc.viewModels.RegisterViewModel
 import com.example.homeworkstbc.databinding.FragmentRegisterBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
     private val registerViewModel: RegisterViewModel by viewModels()
