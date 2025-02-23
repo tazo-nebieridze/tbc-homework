@@ -27,20 +27,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        buildConfigField("String", "BASE_URL", "\"https://reqres.in/api/\"")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            buildConfigField("String", "BASE_URL", "\"https://reqres.in/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://reqres.in/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
         }
     }
     compileOptions {

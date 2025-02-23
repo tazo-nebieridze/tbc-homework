@@ -1,39 +1,39 @@
-// UserRepository.kt
+// UsersRepository.kt
 package com.example.homeworkstbc.repositories
 
-import android.util.Log
-import com.example.app.DataStoreManager
-import com.example.homeworkstbc.utils.Resource
-import com.example.homeworkstbc.utils.ApiHelper
-import com.example.homeworkstbc.client.LoginDto
-import com.example.homeworkstbc.client.LoginRequest
-import com.example.homeworkstbc.client.RegisterDto
-import com.example.homeworkstbc.client.RegisterRequest
+import Post
 import com.example.homeworkstbc.client.UserService
-
+import com.example.homeworkstbc.domain.Store
+import com.example.homeworkstbc.mappers.StoreMapper
+import com.example.homeworkstbc.utils.ApiHelper
+import com.example.homeworkstbc.utils.Resource
 import javax.inject.Inject
 
 class UsersRepository @Inject constructor(
     private val userService: UserService,
-    private val apiHelper: ApiHelper,
-    private val dataStoreManager: DataStoreManager,
-
-    ) {
-    suspend fun login(email: String, password: String): Resource<LoginDto> {
-        return apiHelper.handleHttpRequest {
-            userService.login(LoginRequest(email = email, password = password))
+    private val apiHelper: ApiHelper
+) {
+    suspend fun getStores(): Resource<List<Store>> {
+        val result = apiHelper.handleHttpRequest { userService.fetchStores() }
+        return when (result) {
+            is Resource.Success -> {
+                // Map each StoreDto to a Store
+                val stores = result.data.map { StoreMapper.fromDto(it) }
+                Resource.Success(stores)
+            }
+            is Resource.Error -> result
+            else -> Resource.Error("Unknown error")
         }
     }
-
-    suspend fun register(email: String, password: String): Resource<RegisterDto> {
-        return apiHelper.handleHttpRequest {
-            userService.register(RegisterRequest(email = email, password = password))
+    suspend fun getPosts(): Resource<List<Post>> {
+        val result = apiHelper.handleHttpRequest { userService.fetchPosts() }
+        return when (result) {
+            is Resource.Success -> {
+                val posts = result.data.map { PostMapper.mapToPresentation(it) }
+                Resource.Success(posts)
+            }
+            is Resource.Error -> result
+            else -> Resource.Error("Unknown error")
         }
-    }
-
-    suspend fun saveUserAuth(email: String, token: String, expirationTime: Long) {
-        dataStoreManager.saveToken(token, email, expirationTime)
-//        delay(2000)
-        Log.d("repos", "1")
     }
 }
