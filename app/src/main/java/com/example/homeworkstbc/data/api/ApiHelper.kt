@@ -1,6 +1,7 @@
 // ApiHelper.kt
-package com.example.homeworkstbc.utils
+package com.example.homeworkstbc.data.api
 
+import com.example.homeworkstbc.data.Resource
 import retrofit2.Response
 import javax.inject.Inject
 

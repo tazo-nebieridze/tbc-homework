@@ -1,3 +1,4 @@
+package com.example.homeworkstbc.domain.entities
 
 data class Post(
     val id: Int,

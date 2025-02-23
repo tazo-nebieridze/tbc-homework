@@ -1,5 +1,5 @@
 // Store.kt
-package com.example.homeworkstbc.domain
+package com.example.homeworkstbc.domain.entities
 
 data class Store(
     val id: Int,

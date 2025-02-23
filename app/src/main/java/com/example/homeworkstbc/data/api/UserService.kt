@@ -1,12 +1,9 @@
-package com.example.homeworkstbc.client
+package com.example.homeworkstbc.data.api
 
 import PostsDto
-import StoreDto
+import com.example.homeworkstbc.data.api.dtos.StoreDto
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface UserService {
 

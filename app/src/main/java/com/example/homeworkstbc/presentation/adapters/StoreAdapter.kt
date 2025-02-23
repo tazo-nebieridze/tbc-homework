@@ -1,4 +1,4 @@
-package com.example.homeworkstbc.adapters
+package com.example.homeworkstbc.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.homeworkstbc.R
 import com.example.homeworkstbc.databinding.StoresRecyclerBinding
-import com.example.homeworkstbc.domain.Store
+import com.example.homeworkstbc.domain.entities.Store
 
 
 class ItemsDiffUtil : DiffUtil.ItemCallback<Store>() {

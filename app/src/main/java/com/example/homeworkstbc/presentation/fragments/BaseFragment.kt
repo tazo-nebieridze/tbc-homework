@@ -1,4 +1,4 @@
-package com.example.homeworkstbc.fragments
+package com.example.homeworkstbc.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -10,8 +10,7 @@ import com.example.homeworkstbc.databinding.PostRecyclerForNoImageBinding
 import com.example.homeworkstbc.databinding.PostRecyclerForOneImageBinding
 import com.example.homeworkstbc.databinding.PostRecyclerForThreeImagesBinding
 import com.example.homeworkstbc.databinding.PostRecyclerForTwoImagesBinding
-
-import java.util.Date
+import com.example.homeworkstbc.domain.entities.Post
 
 
 class PostsDiffUtil : DiffUtil.ItemCallback<Post>() {

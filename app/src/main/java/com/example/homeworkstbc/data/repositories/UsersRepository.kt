@@ -1,12 +1,12 @@
 // UsersRepository.kt
-package com.example.homeworkstbc.repositories
+package com.example.homeworkstbc.data.repositories
 
-import Post
-import com.example.homeworkstbc.client.UserService
-import com.example.homeworkstbc.domain.Store
-import com.example.homeworkstbc.mappers.StoreMapper
-import com.example.homeworkstbc.utils.ApiHelper
-import com.example.homeworkstbc.utils.Resource
+import com.example.homeworkstbc.domain.entities.Post
+import com.example.homeworkstbc.data.api.UserService
+import com.example.homeworkstbc.domain.entities.Store
+import com.example.homeworkstbc.data.mappers.StoreMapper
+import com.example.homeworkstbc.data.api.ApiHelper
+import com.example.homeworkstbc.data.Resource
 import javax.inject.Inject
 
 class UsersRepository @Inject constructor(
@@ -17,7 +17,7 @@ class UsersRepository @Inject constructor(
         val result = apiHelper.handleHttpRequest { userService.fetchStores() }
         return when (result) {
             is Resource.Success -> {
-                // Map each StoreDto to a Store
+                // Map each com.example.homeworkstbc.data.api.dtos.StoreDto to a Store
                 val stores = result.data.map { StoreMapper.fromDto(it) }
                 Resource.Success(stores)
             }

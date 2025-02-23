@@ -1,8 +1,8 @@
 // AppModule.kt
-package com.example.homeworkstbc.di
+package com.example.homeworkstbc.core.di
 
 import com.example.homeworkstbc.BuildConfig
-import com.example.homeworkstbc.client.UserService
+import com.example.homeworkstbc.data.api.UserService
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module

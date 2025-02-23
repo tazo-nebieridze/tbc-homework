@@ -1,3 +1,5 @@
+package com.example.homeworkstbc.data.api.dtos
+
 import kotlinx.serialization.Serializable
 
 @Serializable

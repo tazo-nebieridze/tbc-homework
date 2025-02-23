@@ -1,4 +1,4 @@
-
+package com.example.homeworkstbc.domain.entities
 
 data class Owner(
     val fullName: String,

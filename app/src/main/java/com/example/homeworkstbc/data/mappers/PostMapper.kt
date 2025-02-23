@@ -1,3 +1,5 @@
+import com.example.homeworkstbc.domain.entities.Owner
+import com.example.homeworkstbc.domain.entities.Post
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
