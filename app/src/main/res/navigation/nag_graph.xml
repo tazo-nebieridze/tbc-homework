@@ -1,27 +1,54 @@
-<!-- res/navigation/nav_graph.xml -->
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/mainFragment">
+    app:startDestination="@id/loginFragment">
+
 
     <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.example.homeworkstbc.fragments.FavoritesFragment"
-        android:label="Favorites"
-        tools:layout="@layout/fragment_favorites" />
+        android:id="@+id/registerFragment"
+        android:name="com.example.homeworkstbc.fragments.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
 
+    </fragment>
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.homeworkstbc.fragments.MainFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_main" />
+        android:id="@+id/loginFragment"
+        android:name="com.example.homeworkstbc.fragments.logIn.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_home2"
+            app:destination="@id/home2"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.homeworkstbc.fragments.home.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
 
+        <action
+            android:id="@+id/action_home2_to_profile"
+            app:destination="@id/profile"
+
+            />
+
+    </fragment>
     <fragment
-        android:id="@+id/chatFragment"
-        android:name="com.example.homeworkstbc.fragments.ChatFragment"
-        android:label="Chat"
-        tools:layout="@layout/fragment_chat" />
+        android:id="@+id/profile"
+        android:name="com.example.homeworkstbc.fragments.profile.Profile"
+        android:label="Profile" >
+        <action
+            android:id="@+id/action_profile_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
 
 </navigation>

@@ -1,9 +1,7 @@
 package com.example.homeworkstbc.roomDatabase
 
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.homeworkstbc.MyApplication
 
 @Database(entities = [UserDb::class, UserRemoteKey::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

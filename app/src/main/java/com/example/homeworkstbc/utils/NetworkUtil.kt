@@ -1,5 +1,5 @@
 // NetworkUtil.kt
-package com.example.homeworkstbc
+package com.example.homeworkstbc.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

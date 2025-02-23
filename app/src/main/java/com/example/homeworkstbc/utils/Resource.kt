@@ -1,4 +1,4 @@
-
+package com.example.homeworkstbc.utils
 
 
 sealed class Resource<out T> {

@@ -1,15 +1,21 @@
 package com.example.homeworkstbc.client
 
-import ItemsDto
+import UsersDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface UserService {
 
+    @POST("register")
+    suspend fun register(@Body request: RegisterRequest): Response<RegisterDto>
 
-     @GET("6dffd14a-836f-4566-b024-bd41ace3a874")
-        suspend fun fetchUsers(): Response<List<ItemsDto>>
+    @POST("login")
+    suspend fun login(@Body request: LoginRequest): Response<LoginDto>
+
+    @GET("users")
+    suspend fun fetchUsers(@Query("page") page: Int): Response<UsersDto>
 
 }
