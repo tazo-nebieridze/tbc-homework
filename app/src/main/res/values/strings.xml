@@ -135,4 +135,8 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="statistics">Statistics</string>
     <string name="write_comment">Write comment…</string>
+    <string name="longitude">Longitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="location_address">Location Address</string>
+    <string name="location_title">Location Title</string>
 </resources>

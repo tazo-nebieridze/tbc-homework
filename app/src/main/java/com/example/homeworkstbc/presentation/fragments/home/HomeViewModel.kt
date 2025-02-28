@@ -1,49 +1,39 @@
-// com.example.homeworkstbc.fragments.home/HomeViewModel.kt
 package com.example.homeworkstbc.presentation.fragments.home
+
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.homeworkstbc.data.repositories.UsersRepository
-
-import com.example.homeworkstbc.domain.entities.Post
-import com.example.homeworkstbc.domain.entities.Store
 import com.example.homeworkstbc.data.Resource
+import com.example.homeworkstbc.presentation.mappers.toLocation
+import com.example.homeworkstbc.presentation.presentationModules.Location
+import com.example.homeworkstbc.utils.LocationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val usersRepository: UsersRepository
+    private val locationRepository: LocationRepository
 ) : ViewModel() {
 
-    private val _storesState = MutableStateFlow<Resource<List<Store>>>(Resource.Idle)
-    val storesState: StateFlow<Resource<List<Store>>> = _storesState.asStateFlow()
+    private val _locationsState = MutableStateFlow<Resource<List<Location>>>(Resource.Idle)
+    val locationsState: StateFlow<Resource<List<Location>>> = _locationsState
 
-    private val _postsState = MutableStateFlow<Resource<List<Post>>>(Resource.Idle)
-    val postsState: StateFlow<Resource<List<Post>>> = _postsState.asStateFlow()
-
-    init {
-        fetchStores()
-        fetchPosts()
-    }
-
-    private fun fetchStores() {
+    fun fetchLocations() {
         viewModelScope.launch {
-            _storesState.value = Resource.Loading
-            val result = usersRepository.getStores()
-            _storesState.value = result
-        }
-    }
-
-    private fun fetchPosts() {
-        viewModelScope.launch {
-            _postsState.value = Resource.Loading
-            val result = usersRepository.getPosts()
-            _postsState.value = result
+            _locationsState.value = Resource.Loading
+            when (val result = locationRepository.fetchLocations()) {
+                is Resource.Success -> {
+                    val locations = result.data.map { it.toLocation() }
+                    _locationsState.value = Resource.Success(locations)
+                }
+                is Resource.Error -> {
+                    _locationsState.value = Resource.Error(result.message)
+                }
+                else -> Unit
+            }
         }
     }
 }

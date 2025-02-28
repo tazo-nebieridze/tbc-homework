@@ -6,13 +6,17 @@ plugins {
     id ("androidx.navigation.safeargs.kotlin") version "2.8.6" apply false
     id("com.google.dagger.hilt.android") version "2.51.1" apply false
     id("com.google.devtools.ksp") version "2.0.21-1.0.27" apply false
+
 }
 buildscript {
     repositories {
         google()
     }
+
     dependencies {
         val nav_version = "2.8.5"
         classpath(libs.androidx.navigation.safe.args.gradle.plugin)
+        classpath(libs.secrets.gradle.plugin)
+
     }
 }

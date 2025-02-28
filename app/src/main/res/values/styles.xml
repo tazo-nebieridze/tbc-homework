@@ -8,4 +8,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15%</item>
     </style>
+    <!-- styles.xml -->
+
+
+    <style name="CustomBottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:layout_height">wrap_content</item>
+        <!-- You can also set the peek height in code or via a custom behavior if needed -->
+    </style>
 </resources>

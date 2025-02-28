@@ -2,7 +2,10 @@
 package com.example.homeworkstbc.core.di
 
 import com.example.homeworkstbc.BuildConfig
-import com.example.homeworkstbc.data.api.UserService
+import com.example.homeworkstbc.data.api.ApiHelper
+import com.example.homeworkstbc.data.api.LocationService
+import com.example.homeworkstbc.data.repositories.LocationRepositoryImpl
+import com.example.homeworkstbc.utils.LocationRepository
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -50,9 +53,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserService(retrofit: Retrofit): UserService {
-        return retrofit.create(UserService::class.java)
+    fun provideUserService(retrofit: Retrofit): LocationService {
+        return retrofit.create(LocationService::class.java)
     }
+
 
 
 }
