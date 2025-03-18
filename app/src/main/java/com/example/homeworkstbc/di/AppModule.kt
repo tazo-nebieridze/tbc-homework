@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.homeworkstbc.BuildConfig
+import com.example.homeworkstbc.data.remote.api.CategoryService
 import com.example.homeworkstbc.data.remote.api.LoginService
 import com.example.homeworkstbc.data.remote.api.RegisterService
 import com.example.homeworkstbc.data.repositories.DataStoreRepositoryImpl
@@ -66,6 +67,11 @@ object AppModule {
     @Singleton
     fun provideLoginService(retrofit: Retrofit): LoginService {
         return retrofit.create(LoginService::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideCategoryService(retrofit: Retrofit): CategoryService {
+        return retrofit.create(CategoryService::class.java)
     }
     @Provides
     @Singleton

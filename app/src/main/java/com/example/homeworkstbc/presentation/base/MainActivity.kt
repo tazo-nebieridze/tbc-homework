@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setNavigation()
+//        setNavigation()
     }
 
     private fun setNavigation() {
@@ -45,11 +45,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycleScope.launch {
-            clearValueUseCase(PreferenceKeys.TOKEN)
-            clearValueUseCase(PreferenceKeys.TOKEN_VALIDITY_TIME)
-        }
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        lifecycleScope.launch {
+//            clearValueUseCase(PreferenceKeys.TOKEN)
+//            clearValueUseCase(PreferenceKeys.TOKEN_VALIDITY_TIME)
+//        }
+//    }
 }

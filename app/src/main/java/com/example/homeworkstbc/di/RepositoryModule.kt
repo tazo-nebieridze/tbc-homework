@@ -1,7 +1,9 @@
 package com.example.homeworkstbc.di
 
+import com.example.homeworkstbc.data.repositories.CategoryRepositoryImpl
 import com.example.homeworkstbc.data.repositories.LogInRepositoryImpl
 import com.example.homeworkstbc.data.repositories.RegisterRepositoryImpl
+import com.example.homeworkstbc.domain.repository.CategoryRepository
 import com.example.homeworkstbc.domain.repository.LoginRepository
 import com.example.homeworkstbc.domain.repository.RegisterRepository
 import dagger.Binds
@@ -25,5 +27,11 @@ abstract class RepositoryModule {
     abstract fun bindLoginRepositoryImpl(
         loginRepositoryImpl: LogInRepositoryImpl
     ) : LoginRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCategoryRepositoryImpl(
+        categoryRepositoryImpl: CategoryRepositoryImpl
+    ): CategoryRepository
 
 }

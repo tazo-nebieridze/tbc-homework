@@ -17,10 +17,8 @@ class ApiHelper @Inject constructor() {
                 val errorMessage = response.errorBody()?.string() ?: "Unexpected error, please try again"
                 emit(Resource.Error(errorMessage))
             }
-            emit(Resource.Loading(isLoading = false))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error, please try again"))
         }
-         emit(Resource.Loading(isLoading = false))
     }
 }
