@@ -35,14 +35,14 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
+            buildConfigField("String", "BASE_URL", "\"https://reqres.in/api/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
+            buildConfigField("String", "BASE_URL", "\"https://reqres.in/api/\"")
         }
     }
     compileOptions {
@@ -74,6 +74,7 @@ dependencies {
     implementation ("com.google.android.material:material:1.9.0")
     implementation("com.google.maps.android:android-maps-utils:3.10.0")
     implementation(libs.play.services.maps)
+    implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
