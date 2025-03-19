@@ -3,12 +3,13 @@ package com.example.homeworkstbc.presentation.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.homeworkstbc.domain.models.CategoryDomain
 import com.example.homeworkstbc.domain.useCase.FetchCategoryUseCase
 import com.example.homeworkstbc.domain.useCase.FilterCategoriesUseCase
 import com.example.homeworkstbc.domain.utils.Resource
 import com.example.homeworkstbc.presentation.mappers.toPresentation
+import com.example.homeworkstbc.presentation.mappers.toDomain
 import com.example.homeworkstbc.presentation.models.Category
+import com.example.homeworkstbc.presentation.utils.flatten
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -94,17 +95,4 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
-private fun Category.toDomain(): CategoryDomain {
-    return CategoryDomain(
-        id = this.id,
-        name = this.name,
-        nameDe = this.nameDe,
-        createdAt = this.createdAt,
-        bglNumber = this.bglNumber,
-        bglVariant = this.bglVariant,
-        orderId = this.orderId,
-        main = this.main,
-        children = this.children.map { it.toDomain() },
-        parentCount = this.parentCount
-    )
-}
+

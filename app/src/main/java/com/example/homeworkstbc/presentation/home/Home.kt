@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homeworkstbc.databinding.FragmentHomeBinding
 import com.example.homeworkstbc.presentation.base.BaseFragment
@@ -44,23 +46,29 @@ class Home : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.state.collect { state ->
-                Log.d("HomeFragment", "State received: isLoading=${state.isLoading}, Categories size=${state.categories.size}")
-                binding.loading.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-                categoryAdapter.submitList(state.categories)
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                homeViewModel.state.collect { state ->
+                    Log.d("HomeFragment", "State received: isLoading=${state.isLoading}, Categories size=${state.categories.size}")
+                    binding.loading.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+                    categoryAdapter.submitList(state.categories)
+                }
             }
+
         }
     }
 
     private fun observeSideEffects() {
         viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.sideEffect.collect { sideEffect ->
-                when (sideEffect) {
-                    is HomeSideEffect.ShowError -> {
-                        Toast.makeText(requireContext(), sideEffect.message, Toast.LENGTH_SHORT).show()
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                homeViewModel.sideEffect.collect { sideEffect ->
+                    when (sideEffect) {
+                        is HomeSideEffect.ShowError -> {
+                            Toast.makeText(requireContext(), sideEffect.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
+
         }
     }
 }

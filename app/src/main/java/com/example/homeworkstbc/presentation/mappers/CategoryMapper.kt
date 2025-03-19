@@ -18,3 +18,17 @@ fun CategoryDomain.toPresentation(): Category {
         parentCount = this.parentCount
     )
 }
+ fun Category.toDomain(): CategoryDomain {
+    return CategoryDomain(
+        id = this.id,
+        name = this.name,
+        nameDe = this.nameDe,
+        createdAt = this.createdAt,
+        bglNumber = this.bglNumber,
+        bglVariant = this.bglVariant,
+        orderId = this.orderId,
+        main = this.main,
+        children = this.children.map { it.toDomain() },
+        parentCount = this.parentCount
+    )
+}
