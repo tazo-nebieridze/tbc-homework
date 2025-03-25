@@ -12,6 +12,7 @@ plugins {
     id ("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.firebase.crashlytics")
 
 }
 
@@ -75,7 +76,8 @@ secrets {
 dependencies {
     val nav_version = "2.8.5"
     val room_version = "2.6.1"
-    implementation ("com.google.android.material:material:1.9.0")
+
+    implementation (libs.material.v190)
     implementation("com.google.maps.android:android-maps-utils:3.10.0")
     implementation(libs.play.services.maps)
     implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
@@ -104,9 +106,11 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
-    implementation ("com.google.android.material:material:1.9.0")
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
+    implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation ("com.google.android.material:material:1.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

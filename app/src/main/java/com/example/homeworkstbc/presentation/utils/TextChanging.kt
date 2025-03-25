@@ -2,7 +2,9 @@ package com.example.homeworkstbc.presentation.utils
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -25,4 +27,7 @@ fun EditText.afterTextChangedDebounced(
             }
         }
     })
+}
+fun View.showSnackbar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
+    Snackbar.make(this, message, duration).show()
 }

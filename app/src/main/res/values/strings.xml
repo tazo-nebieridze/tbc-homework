@@ -136,7 +136,46 @@
     <string name="statistics">Statistics</string>
     <string name="write_comment">Write comment…</string>
     <string name="longitude">Longitude:</string>
-    <string name="latitude">Latitude:</string>
-    <string name="location_address">Location Address</string>
-    <string name="location_title">Location Title</string>
+
+    <string name="username">UserName</string>
+
+    <string name="pick_from_gallery">pick from gallery</string>
+    <string name="take_photo">take photo</string>
+    <string name="select_image">select image</string>
+    <string name="camera_icon_desc">camera_icon_desc</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="resend_otp">Resend Otp</string>
+    <string name="search_for_food">Search for food</string>
+    <string name="ingredients">Ingredients :</string>
+    <string name="loading">loading...</string>
+
+
+    <string name="camera_permission_required">camera permission required</string>
+    <string name="camera_permission_message">This feature needs camera access to take photos. Please allow camera permission in app settings if you previously denied it</string>
+    <string name="go_to_settings">go to settings</string>
+    <string name="camera_permission_denied">camera permission denied</string>
+
+    <string name="profile_update_successfully">Profile updated successfully</string>
+    <string name="fill_all_fields">Fill all fields</string>
+    <string name="online_mode">Online Mode: Fetching latest food data</string>
+    <string name="offline_mode">Offline Mode: Displaying cached food data</string>
+    <string name="valid_email">Input a valid email address</string>
+    <string name="otp_resend_successfully">OTP resent successfully</string>
+    <string name="incorect_email_or_password">Incorrect email or password. Please try again.</string>
+    <string name="already_registered_email">This email is already registered. Please use a different email.</string>
+    <string name="invalid_otp">Invalid OTP. Please check and try again.</string>
+    <string name="invalid_otp1">Invalid OTP. Please check and try again.</string>
+    <string name="expired_jwt">Session expired. Please log in again.</string>
+    <string name="other_error">An unexpected error occurred. Please try again.</string>
+    <string name="error_parsing">Error parsing response. Please try again.</string>
+    <string name="empty_response">Empty response</string>
+    <string name="request_timed_out">Request timed out. Please try again.</string>
+    <string name="internet_error">No internet connection. Please check your network.</string>
+    <string name="view_source">view source</string>
+    <string name="no_app_for_url">No application found to open URL.</string>
+    <string name="invalid_url">Invalid URL.</string>
+    <string name="otp_expired">OTP expired. Please resend</string>
+    <string name="default_notification_channel_id">default</string>
+    <string name="default_notification_channel_name">Default Channel</string>
+    <string name="default_notification_channel_description">This is the default notification channel</string>
 </resources>

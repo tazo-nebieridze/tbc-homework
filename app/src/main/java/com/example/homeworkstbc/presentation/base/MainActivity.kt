@@ -1,55 +1,61 @@
 package com.example.homeworkstbc.presentation.base
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
+import androidx.core.content.ContextCompat
 import com.example.homeworkstbc.R
-import com.example.homeworkstbc.domain.utils.PreferenceKeys
 import com.example.homeworkstbc.databinding.ActivityMainBinding
-import com.example.homeworkstbc.domain.useCase.CheckTokenValidityUseCase
-import com.example.homeworkstbc.domain.useCase.ClearValueUseCase
-
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    @Inject
-    lateinit var checkTokenValidityUseCase: CheckTokenValidityUseCase
-
-    @Inject
-    lateinit var clearValueUseCase: ClearValueUseCase
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setNavigation()
+        // Create notification channel
+        askNotificationPermission()
     }
-
-    private fun setNavigation() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-
-        lifecycleScope.launch {
-            val isTokenValid = checkTokenValidityUseCase()
-            val graph = navController.navInflater.inflate(R.navigation.nag_graph)
-            graph.setStartDestination(if (isTokenValid) R.id.home2 else R.id.loginFragment)
-            navController.setGraph(graph, null)
+    // Declare the launcher at the top of your Activity/Fragment:
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
         }
     }
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        lifecycleScope.launch {
-//            clearValueUseCase(PreferenceKeys.TOKEN)
-//            clearValueUseCase(PreferenceKeys.TOKEN_VALIDITY_TIME)
-//        }
-//    }
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+
 }
