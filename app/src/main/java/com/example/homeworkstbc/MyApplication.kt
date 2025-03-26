@@ -43,7 +43,6 @@ class MyApplication : Application() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM token failed", task.exception)
-                // Retry after 5 seconds
                 Handler(Looper.getMainLooper()).postDelayed({
                     getToken()
                 }, 5000)
@@ -52,7 +51,6 @@ class MyApplication : Application() {
             val token = task.result
             Log.d(TAG, "FCM Token: $token")
             Toast.makeText(this, "Token: $token", Toast.LENGTH_SHORT).show()
-            // TODO: Send token to your server here (e.g., via API call)
         }
     }
 }

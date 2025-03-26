@@ -28,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-    val homeViewModel : HomeViewModel by viewModels()
+//    val homeViewModel : HomeViewModel by viewModels()
     private var newProfilePhotoBase64: String? = null
 
     override fun start() {

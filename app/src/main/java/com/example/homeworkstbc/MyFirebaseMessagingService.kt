@@ -17,16 +17,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        // Handle notification payload
         remoteMessage.notification?.let {
             val title = it.title ?: "Default Title"
             val body = it.body ?: "Default Body"
             sendNotification(title, body)
         }
-        // Handle data payload
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Data Payload: ${remoteMessage.data}")
-            // TODO: Process data (e.g., update UI or database)
         }
     }
 
@@ -53,6 +50,5 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
-        // TODO: Send token to your server here
     }
 }
