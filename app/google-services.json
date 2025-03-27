@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349013932828",
+    "project_id": "pushnotifications-f0123",
+    "storage_bucket": "pushnotifications-f0123.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349013932828:android:604382e6e669e1c20018d9",
+        "android_client_info": {
+          "package_name": "com.example.homeworkstbc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9vYqffQj_qQ3KaSYSQrD0gZNouGiyETI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

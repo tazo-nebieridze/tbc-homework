@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.homeworkstbc.R
+import com.example.homeworkstbc.RunningService
 import com.example.homeworkstbc.databinding.FragmentHomeBinding
 import com.example.homeworkstbc.domain.utils.Resource
 import com.example.homeworkstbc.presentation.base.BaseFragment
@@ -36,6 +38,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         binding.crash.setOnClickListener {
             throw RuntimeException("Test Crash")
+        }
+        binding.startForegroundService.setOnClickListener{
+            Intent(requireContext(),RunningService::class.java).also {
+                it.action = RunningService.Actions.START.toString()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    requireContext().startForegroundService(it)
+                }else {
+                    requireContext().startService(it)
+
+                }
+            }
+        }
+        binding.StopForegroundService.setOnClickListener{
+            Intent(requireContext(),RunningService::class.java).also {
+                it.action = RunningService.Actions.STOP.toString()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    requireContext().startForegroundService(it)
+                }else {
+                    requireContext().startService(it)
+
+                }
+            }
         }
     }
     private fun showImageOptions() {

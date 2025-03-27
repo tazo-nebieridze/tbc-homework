@@ -9,6 +9,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <Button
+        android:id="@+id/startForegroundService"
+        android:text="start foreground service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <Button
+        android:id="@+id/StopForegroundService"
+        android:text="stop foreground service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileImage"
@@ -21,6 +35,6 @@
        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
+        app:layout_constraintBottom_toBottomOf="parent"
         app:shapeAppearanceOverlay="@style/CircularShape" />
 </androidx.constraintlayout.widget.ConstraintLayout>

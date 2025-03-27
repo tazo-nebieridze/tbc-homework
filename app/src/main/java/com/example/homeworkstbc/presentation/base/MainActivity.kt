@@ -3,6 +3,7 @@ package com.example.homeworkstbc.presentation.base
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.homeworkstbc.R
+import com.example.homeworkstbc.RunningService
 import com.example.homeworkstbc.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
