@@ -4,34 +4,28 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Base64
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.example.homeworkstbc.R
+import com.example.homeworkstbc.databinding.FragmentHomeBinding
+import com.example.homeworkstbc.RunningService
+import com.example.homeworkstbc.presentation.base.BaseFragment
+import com.example.homeworkstbc.presentation.utils.showSnackbar
+import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
-import com.example.homeworkstbc.R
-import com.example.homeworkstbc.RunningService
-import com.example.homeworkstbc.databinding.FragmentHomeBinding
-import com.example.homeworkstbc.domain.utils.Resource
-import com.example.homeworkstbc.presentation.base.BaseFragment
-import com.example.homeworkstbc.presentation.utils.convertUriToBase64
-import com.example.homeworkstbc.presentation.utils.showSnackbar
-import dagger.hilt.android.AndroidEntryPoint
+import android.provider.MediaStore
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-//    val homeViewModel : HomeViewModel by viewModels()
-    private var newProfilePhotoBase64: String? = null
+    private val viewModel by viewModels<HomeViewModel>()
 
     override fun start() {
         binding.profileImage.setOnClickListener { showImageOptions() }
@@ -39,29 +33,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.crash.setOnClickListener {
             throw RuntimeException("Test Crash")
         }
-        binding.startForegroundService.setOnClickListener{
-            Intent(requireContext(),RunningService::class.java).also {
+        binding.startForegroundService.setOnClickListener {
+            Intent(requireContext(), RunningService::class.java).also {
                 it.action = RunningService.Actions.START.toString()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     requireContext().startForegroundService(it)
-                }else {
+                } else {
                     requireContext().startService(it)
-
                 }
             }
         }
-        binding.StopForegroundService.setOnClickListener{
-            Intent(requireContext(),RunningService::class.java).also {
+        binding.StopForegroundService.setOnClickListener {
+            Intent(requireContext(), RunningService::class.java).also {
                 it.action = RunningService.Actions.STOP.toString()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     requireContext().startForegroundService(it)
-                }else {
+                } else {
                     requireContext().startService(it)
-
                 }
             }
         }
     }
+
     private fun showImageOptions() {
         val options = arrayOf(
             getString(R.string.pick_from_gallery),
@@ -83,8 +76,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            newProfilePhotoBase64 = requireContext().convertUriToBase64(it)
-            binding.profileImage.setImageURI(it)
+            loadImageWithGlide(it)
+            viewModel.processImage(getBitmapFromUri(it)) { base64 ->
+                Log.d("HomeFragment", "Base64: $base64")
+            }
         }
     }
 
@@ -96,8 +91,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val bitmap = result.data?.extras?.get("data") as? android.graphics.Bitmap
-            bitmap?.let { updateProfileImage(it) }
+            val bitmap = result.data?.extras?.get("data") as? Bitmap
+            bitmap?.let {
+                loadImageWithGlide(it)
+                viewModel.processImage(it) { base64 ->
+                    Log.d("HomeFragment", "Base64: $base64")
+                }
+            }
         }
     }
 
@@ -111,6 +111,45 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
             else -> {
                 requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+    private fun launchCamera() {
+        val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraLauncher.launch(cameraIntent)
+    }
+
+    private fun loadImageWithGlide(uri: Uri) {
+        Glide.with(this)
+            .load(uri)
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.error_image)
+            .into(binding.profileImage)
+    }
+
+    private fun loadImageWithGlide(bitmap: Bitmap) {
+        Glide.with(this)
+            .load(bitmap)
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.error_image)
+            .into(binding.profileImage)
+    }
+
+    private fun getBitmapFromUri(uri: Uri): Bitmap {
+        return MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+    }
+
+    private val requestCameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            launchCamera()
+        } else {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                showPermissionRationaleDialog()
+            } else {
+                binding.root.showSnackbar(getString(R.string.camera_permission_denied))
             }
         }
     }
@@ -129,33 +168,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             .show()
     }
-
-    private val requestCameraPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            launchCamera()
-        } else {
-            if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                showPermissionRationaleDialog()
-            } else {
-                binding.root.showSnackbar(getString(R.string.camera_permission_denied))
-            }
-        }
-    }
-
-    private fun launchCamera() {
-        val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraLauncher.launch(cameraIntent)
-    }
-
-    private fun updateProfileImage(bitmap: android.graphics.Bitmap) {
-        val outputStream = java.io.ByteArrayOutputStream()
-        bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 90, outputStream)
-        newProfilePhotoBase64 = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
-        binding.profileImage.setImageBitmap(bitmap)
-    }
-
-
-
 }

@@ -76,6 +76,9 @@ secrets {
 dependencies {
     val nav_version = "2.8.5"
     val room_version = "2.6.1"
+    val work_version = "2.10.0"
+
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 
     implementation (libs.material.v190)
     implementation("com.google.maps.android:android-maps-utils:3.10.0")
