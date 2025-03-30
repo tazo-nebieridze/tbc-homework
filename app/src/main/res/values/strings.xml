@@ -178,4 +178,12 @@
     <string name="default_notification_channel_id">default</string>
     <string name="default_notification_channel_name">Default Channel</string>
     <string name="default_notification_channel_description">This is the default notification channel</string>
+    <string name="transfer_internally">Transfer Internally</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="sell">Sell</string>
+    <string name="_350">350 €</string>
+    <string name="buy">Buy</string>
+    <string name="_950">950 €</string>
+    <string name="transfer_between_your_accounts">Transfer between your accounts</string>
 </resources>
