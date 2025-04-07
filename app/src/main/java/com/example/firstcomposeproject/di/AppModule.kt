@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.example.firstcomposeproject.BuildConfig
 import com.example.firstcomposeproject.data.remote.api.LoginService
 import com.example.firstcomposeproject.data.remote.api.RegisterService
+import com.example.firstcomposeproject.data.remote.api.UserService
 import com.example.firstcomposeproject.data.repositories.DataStoreRepositoryImpl
 import com.example.firstcomposeproject.domain.repository.DataStoreRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -66,6 +67,12 @@ object AppModule {
     fun provideLoginService(retrofit: Retrofit): LoginService {
         return retrofit.create(LoginService::class.java)
     }
+    @Provides
+    @Singleton
+    fun provideUserService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
+    }
+
     @Provides
     @Singleton
     fun provideDataStoreRepository(dataStore: DataStore<Preferences>): DataStoreRepository {

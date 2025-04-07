@@ -1,12 +1,15 @@
 package com.example.firstcomposeproject.presentation.auth.logIn
 
+import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firstcomposeproject.domain.useCase.LoginUseCase
 import com.example.firstcomposeproject.domain.useCase.SaveTokenUseCase
+import com.example.firstcomposeproject.domain.useCase.SaveValueUseCase
 import com.example.firstcomposeproject.domain.useCase.ValidateEmailUseCase
 import com.example.firstcomposeproject.domain.useCase.ValidatePasswordUseCase
+import com.example.firstcomposeproject.domain.utils.PreferenceKeys
 import com.example.firstcomposeproject.domain.utils.Resource
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +27,8 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
-    private val saveTokenUseCase: SaveTokenUseCase
+    private val saveTokenUseCase: SaveTokenUseCase,
+    private val saveValueUseCase: SaveValueUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LoginState())
@@ -80,6 +84,7 @@ class LoginViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         saveTokenUseCase(resource.data.token!!, rememberMe)
+                        saveValueUseCase(PreferenceKeys.EMAIL, state.value.email)
                         _state.value = _state.value.copy(isLoading = false)
                         _sideEffect.emit(LoginSideEffect.NavigateToHome)
                         Log.d("loginViewModel","Success")

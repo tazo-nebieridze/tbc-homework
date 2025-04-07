@@ -4,29 +4,17 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,47 +35,41 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.firstcomposeproject.R
-import com.example.firstcomposeproject.presentation.auth.logIn.LoginIntent
 import com.example.firstcomposeproject.presentation.utils.CollectSideEffect
 
 @Composable
-fun RegisterScreenContent (
+fun RegisterScreenContent(
     state: RegisterState,
     onIntent: (RegisterIntent) -> Unit,
-    navController : NavController
+    onBackClick: () -> Unit
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     var repeatPasswordVisible by rememberSaveable { mutableStateOf(false) }
-
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-
+            .padding(horizontal = 20.dp)
+            .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Text(
-            modifier = Modifier.padding(vertical = 10.dp),
             text = "Register",
             style = TextStyle(
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 0.1.sp
             ),
+            modifier = Modifier.padding(vertical = 10.dp)
         )
         Image(
+            painter = painterResource(id = R.drawable.standing),
+            contentDescription = null,
             modifier = Modifier
                 .width(200.dp)
                 .padding(top = 40.dp)
-                .height(250.dp),
-            painter = painterResource(id = R.drawable.standing),
-            contentDescription = null,
-
+                .height(250.dp)
         )
         TextField(
             value = state.email,
@@ -104,7 +86,7 @@ fun RegisterScreenContent (
                 unfocusedIndicatorColor = Color.Transparent
             ),
             shape = RoundedCornerShape(10.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
         TextField(
             value = state.password,
@@ -130,7 +112,7 @@ fun RegisterScreenContent (
                 unfocusedIndicatorColor = Color.Transparent
             ),
             shape = RoundedCornerShape(10.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
         TextField(
             value = state.repeatPassword,
@@ -156,7 +138,7 @@ fun RegisterScreenContent (
                 unfocusedIndicatorColor = Color.Transparent
             ),
             shape = RoundedCornerShape(10.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
         Button(
             onClick = { onIntent(RegisterIntent.RegisterClicked) },
@@ -168,19 +150,18 @@ fun RegisterScreenContent (
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF700BEF))
         ) {
             Text(
-                text = if (state.isLoading) "Loading..." else "Log In",
+                text = if (state.isLoading) "Loading..." else "Register", // Fixed button text
                 color = Color.White,
                 fontSize = 18.sp
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-
         Row(
             modifier = Modifier.padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Already have an account ?",
+                text = "Already have an account?",
                 style = TextStyle(fontSize = 20.sp)
             )
             Text(
@@ -190,46 +171,40 @@ fun RegisterScreenContent (
                     color = Color(0xFF700BEF),
                     fontWeight = FontWeight.Bold
                 ),
-                modifier = Modifier.clickable { navController.popBackStack() }
+                modifier = Modifier.clickable { onBackClick() }
             )
         }
     }
-
-
 }
 
 @Composable
-fun RegisterScreen (
+fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
-    navController: NavHostController,
+    onRegisterSuccess: (String, String) -> Unit,
+    onBackClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-
-
     CollectSideEffect(viewModel.sideEffect) { effect ->
         when (effect) {
             is RegisterSideEffect.ShowError -> {
-                Toast.makeText(context, "${effect.message}", Toast.LENGTH_LONG).show()
-                Log.d("loginViewModel", "errorComposable")
+                Toast.makeText(context, effect.message, Toast.LENGTH_LONG).show()
+                Log.d("RegisterScreen", "Error: ${effect.message}")
             }
             is RegisterSideEffect.NavigateToLogin -> {
-                navController.previousBackStackEntry?.savedStateHandle?.set(
-                    "registered_credentials",
-                    mapOf("email" to state.email, "password" to state.password)
-                )
-                navController.popBackStack()
+                onRegisterSuccess(state.email, state.password)
             }
         }
     }
+
     RegisterScreenContent(
         state = state,
         onIntent = { intent -> viewModel.processIntent(intent) },
-        navController = navController
+        onBackClick = onBackClick
     )
-
 }
+
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenContentPreview() {
@@ -242,11 +217,10 @@ fun RegisterScreenContentPreview() {
         repeatPassword = "password123",
         isRepeatPasswordValid = true
     )
-    val navController = rememberNavController()
 
     RegisterScreenContent (
         state = fakeState,
         onIntent = {  },
-        navController = navController
+        onBackClick = {}
     )
 }

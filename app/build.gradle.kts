@@ -61,6 +61,10 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.paging:paging-runtime:3.3.0")
+    implementation ("androidx.paging:paging-compose:3.3.6")
+    implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.androidx.core.splashscreen)
@@ -81,6 +85,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation("androidx.compose.material:material:1.7.8")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

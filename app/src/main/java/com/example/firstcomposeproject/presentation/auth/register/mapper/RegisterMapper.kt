@@ -1,7 +1,7 @@
-package com.example.firstcomposeproject.presentation.mappers
+package com.example.firstcomposeproject.presentation.auth.register.mapper
 
 import com.example.firstcomposeproject.domain.models.RegisterDomain
-import com.example.firstcomposeproject.presentation.models.Register
+import com.example.firstcomposeproject.presentation.auth.register.module.Register
 
 
 fun RegisterDomain.toRegister() : Register {

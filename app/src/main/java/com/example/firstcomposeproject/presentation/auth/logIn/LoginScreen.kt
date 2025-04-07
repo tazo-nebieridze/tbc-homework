@@ -5,8 +5,10 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -34,11 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.example.firstcomposeproject.R
 import com.example.firstcomposeproject.presentation.utils.CollectSideEffect
-
-
 
 @Composable
 fun LoginScreenContent(
@@ -47,11 +46,12 @@ fun LoginScreenContent(
     onRegisterClick: () -> Unit
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 20.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -86,9 +86,8 @@ fun LoginScreenContent(
                 unfocusedIndicatorColor = Color.Transparent
             ),
             shape = RoundedCornerShape(10.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
-
         TextField(
             value = state.password,
             onValueChange = { onIntent(LoginIntent.PasswordChanged(it)) },
@@ -113,9 +112,8 @@ fun LoginScreenContent(
                 unfocusedIndicatorColor = Color.Transparent
             ),
             shape = RoundedCornerShape(10.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -132,7 +130,6 @@ fun LoginScreenContent(
                 modifier = Modifier.padding(start = 8.dp)
             )
         }
-
         Button(
             onClick = { onIntent(LoginIntent.LoginClicked) },
             enabled = state.isEmailValid && state.isPasswordValid && !state.isLoading,
@@ -143,14 +140,12 @@ fun LoginScreenContent(
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF700BEF))
         ) {
             Text(
-                text = if (state.isLoading) "Loading..." else "Register",
+                text = if (state.isLoading) "Loading..." else "Log In", // Fixed button text
                 color = Color.White,
                 fontSize = 18.sp
             )
         }
-
         Spacer(modifier = Modifier.weight(1f))
-
         Row(
             modifier = Modifier.padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.Center
@@ -175,33 +170,28 @@ fun LoginScreenContent(
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
-    navController: NavHostController,
-    onRegisterClick: () -> Unit
+    registeredCredentials: Map<String, String>?,
+    onRegisterClick: () -> Unit,
+    onLoginSuccess: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
-
-    val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
-    val registeredCredentials = savedStateHandle?.get<Map<String, String>>("registered_credentials")
 
     LaunchedEffect(registeredCredentials) {
         registeredCredentials?.let { credentials ->
             viewModel.processIntent(LoginIntent.EmailChanged(credentials["email"] ?: ""))
             viewModel.processIntent(LoginIntent.PasswordChanged(credentials["password"] ?: ""))
-            savedStateHandle?.remove<Map<String, String>>("registered_credentials")
         }
     }
 
     CollectSideEffect(viewModel.sideEffect) { effect ->
         when (effect) {
             is LoginSideEffect.ShowError -> {
-                Toast.makeText(context, "${effect.message}", Toast.LENGTH_LONG).show()
-                Log.d("loginViewModel", "errorComposable")
+                Toast.makeText(context, effect.message, Toast.LENGTH_LONG).show()
+                Log.d("LoginScreen", "Error: ${effect.message}")
             }
             is LoginSideEffect.NavigateToHome -> {
-                navController.navigate("HomeScreen") {
-                    popUpTo("LoginScreen") { inclusive = true }
-                }
+                onLoginSuccess()
             }
         }
     }
@@ -212,6 +202,7 @@ fun LoginScreen(
         onRegisterClick = onRegisterClick
     )
 }
+
 
 @Preview(showBackground = true)
 @Composable
